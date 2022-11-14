@@ -1,16 +1,25 @@
 import numpy as np
 from numpy import sin as s
 from numpy import cos as c
-from rotorParams import *
+import rotorParams as P
 
 class rotorDynamics:
     def __init__(self, alpha=0.0):
+        self.state = np.array([P.x0,P.y0,P.z0,P.phi0,P.theta0,P.psi0,P.xdot0,P.ydot0,P.zdot0,P.phidot0,P.psidot0,P.thetadot0])
+        self.state = np.expand_dims(self.state,1)
+        self.Ts = P.Ts
         return
     
+    from rotorForcesandMoments import ForcesAndMoments
+
     def update(self,u):
+        self.rk4_step(u)
+        y = self.h()
         return
     
     def f(self,state,u):
+        self.ForcesAndMoments()
+
         return
     
     def h(self):
