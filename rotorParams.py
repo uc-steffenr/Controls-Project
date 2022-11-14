@@ -17,16 +17,17 @@ sc = 0.05 # m -> length of side of square
 d = 0.04 # m -> length of rod connecting fan to center
 rf = 0.03 # m -> radius of fan
 h = 0.02 # m -> thickness of center
+leg_l = 0.005 # m -> length of landing legs
 
 # ----------------------------------------------
 #             INITIAL CONDITIONS
 # ----------------------------------------------
-x0 = 12
-y0 = -5
-z0 = 9
-phi0 = 30 * np.pi/180
-theta0 = -30 * np.pi/180
-psi0 = 45 * np.pi/180
+x0 = 0
+y0 = 0
+z0 = 0
+phi0 = 0 * np.pi/180
+theta0 = 0 * np.pi/180
+psi0 = 0 * np.pi/180
 
 xdot0 = 0.0
 ydot0 = 0.0
