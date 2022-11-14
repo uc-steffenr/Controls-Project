@@ -18,8 +18,6 @@ rotorAnim.update(state)
 
 plt.waitforbuttonpress()
 
-# Kenny is a bitch
-
 # state = np.array([0,0,0,0,0,0,0,0,0,0,0,0])
 # state = np.expand_dims(state,1)
 state = np.array([
