@@ -21,9 +21,9 @@ plt.waitforbuttonpress()
 # state = np.array([0,0,0,0,0,0,0,0,0,0,0,0])
 # state = np.expand_dims(state,1)
 state = np.array([
-    [0],
-    [0],
-    [0],
+    [5],
+    [12],
+    [-9],
     [30 * np.pi/180], # -> phi, roll
     [0 * np.pi/180], # -> theta, pitch
     [0 * np.pi/180], # -> psi, yaw
