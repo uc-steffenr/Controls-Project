@@ -14,7 +14,6 @@ state = np.expand_dims(state,1)
 rotorAnim.update(state)
 
 plt.waitforbuttonpress()
-# plt.show(block=True)
 
 state = np.array([0,0,0,0,0,0,0,0,0,0,0,0])
 state = np.expand_dims(state,1)

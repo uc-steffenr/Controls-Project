@@ -183,22 +183,6 @@ def drawArms(self,state):
     arm4x = [verts[6,0],verts[7,0]]
     arm4y = [verts[6,1],verts[7,1]]
     arm4z = [verts[6,2],verts[7,2]]
-
-    # arm1 = [[x1,x2],[0,0],[0,0]]
-    # arm2 = [[-x1,-x2],[0,0],[0,0]]
-    # arm3 = [[0,0],[y1,y2],[0,0]]
-    # arm4 = [[0,0],[-y1,-y2],[0,0]]
-
-    # arm = []
-    # arm.append(np.array([[x1,0,z],[x2,0,z]]))
-    # arm.append(np.array([[-x1,0,z],[-x2,0,z]]))
-    # arm.append(np.array([[0,y1,z],[0,y2,z]]))
-    # arm.append(np.array([[0,-y1,z],[0,-y2,z]]))
-
-    
-
-    # for a in arm:
-    #     a = (a @ R(psi,theta,phi)) + T
     
     if self.flag_init:
         arm1, = self.ax.plot3D(arm1x,arm1y,arm1z,'-o',color='k',lw=lw)
@@ -210,21 +194,13 @@ def drawArms(self,state):
         self.handle.append(arm2)
         self.handle.append(arm3)
         self.handle.append(arm4)
-        # for a in arm:
-        #     tmp, = self.ax.plot3D(a[:,0],a[:,1],a[:,2],'-',color='k',lw=2)
-        #     self.handle.append(tmp)
+
     else:
         self.handle[6].set_data_3d((arm1x,arm1y,arm1z))
         self.handle[7].set_data_3d((arm2x,arm2y,arm2z))
         self.handle[8].set_data_3d((arm3x,arm3y,arm3z))
         self.handle[9].set_data_3d((arm4x,arm4y,arm4z))
-        # for i in range(6,10):
-        #     j = i-6
-        #     self.handle[i].set_data_3d((arm[j][:,0],arm[j][:,1],arm[j][:,2]))
-        # self.handle[6].set_data_3d((arm[0][:,0],arm[0][:,1],arm[0][:,2]))
-        # self.handle[7].set_data_3d((arm[]))
 
-    return
 
 def drawFans(self,state):
     px = state.item(0)
@@ -242,35 +218,14 @@ def drawFans(self,state):
     fan3 = np.array([-x-P.rf*c(alpha),x+P.rf*s(alpha),np.zeros(self.circle_size)])
     fan4 = np.array([-x-P.rf*c(alpha),-x+P.rf*s(alpha),np.zeros(self.circle_size)])
 
-    # fan1 = fan1.T
-    # fan2 = fan2.T
-    # fan3 = fan3.T
-    # fan4 = fan4.T
-
 
     T = np.array([px,py,pz])
-    # T = np.tile(T,(fan1.shape[0],1))
-    # print(fan1.shape)
-    # print(fan1.T)
-
-    # for f1,f2,f3,f4 in zip(fan1.T,fan2.T,fan3.T,fan4.T):
-    #     f1 = (f1 @ R(psi,theta,phi)) + T
-    #     print(f1)
-    #     f2 = (f2 @ R(psi,theta,phi)) + T
-    #     f3 = (f3 @ R(psi,theta,phi)) + T
-    #     f4 = (f4 @ R(psi,theta,phi)) + T
     
     for i in range(fan1.shape[1]):
-        # print(fan1[:,0].shape)
-        # print(T.shape)
         fan1[:,i] = np.matmul(fan1[:,i],R(psi,theta,phi)) + T
         fan2[:,i] = np.matmul(fan2[:,i],R(psi,theta,phi)) + T
         fan3[:,i] = np.matmul(fan3[:,i],R(psi,theta,phi)) + T
         fan4[:,i] = np.matmul(fan4[:,i],R(psi,theta,phi)) + T
-        print(T)
-        print(fan1[:,i])
-
-    # print(fan1)
     
     
     fan1 = [list(zip(fan1[0,:],fan1[1,:],fan1[2,:]))]
@@ -300,5 +255,3 @@ def drawFans(self,state):
         self.handle[11].set_verts(fan2)
         self.handle[12].set_verts(fan3)
         self.handle[13].set_verts(fan4)
-    
-    return
