@@ -1,5 +1,5 @@
 import numpy as np
-from numpy import sin,cos as s,c
+# from numpy import sin,cos as s,c
 import matplotlib.pyplot as plt
 
 # ----------------------------------------------
@@ -14,19 +14,19 @@ Jf = 2 # these are placeholders for real numbers
 #             DIMENSIONS OF ROTOR
 # ----------------------------------------------
 sc = 0.05 # m -> length of side of square
-d = 0.075 # m -> length of rod connecting fan to center
-rf = 0.01 # m -> radius of fan
+d = 0.04 # m -> length of rod connecting fan to center
+rf = 0.03 # m -> radius of fan
 h = 0.02 # m -> thickness of center
 
 # ----------------------------------------------
 #             INITIAL CONDITIONS
 # ----------------------------------------------
-x0 = 0.0
-y0 = 0.0
-z0 = 0.0
-phi0 = 0.0 * np.pi/180
-theta0 = 0.0 * np.pi/180
-psi0 = 0.0 * np.pi/180
+x0 = 12
+y0 = -5
+z0 = 9
+phi0 = 30 * np.pi/180
+theta0 = -30 * np.pi/180
+psi0 = 45 * np.pi/180
 
 xdot0 = 0.0
 ydot0 = 0.0
