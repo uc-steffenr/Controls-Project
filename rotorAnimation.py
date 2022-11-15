@@ -37,10 +37,15 @@ class rotorAnimation:
     
     from _drawRotor import drawCenter, drawArms, drawFans
     
-    def update(self,state):
-        x = state.item(0)
-        y = state.item(1)
-        z = state.item(2)
+    def update(self,i,states):
+        x = states[i, 0]
+        y = states[i, 1]
+        z = states[i, 2]
+        phi = states[i, 3]
+        theta = states[i, 4]
+        psi = states[i, 5]
+        state = np.array([[x, y, z, phi, theta, psi]]).T
+
 
         self.drawCenter(state,face_color='r',edge_color='k',lw=1)
         self.drawArms(state)
@@ -53,4 +58,9 @@ class rotorAnimation:
             self.ax.set_ylim(y-self.lim,y+self.lim)
             self.ax.set_zlim(z-self.lim,z+self.lim)
         return
-    
+# state = np.array([[0,0,0,0,0,0,0,0,0,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,1]])
+# animy = rotorAnimation()
+# animy.update(0, state)
+# plt.pause(2)
+# animy.update(1, state)
+# plt.pause(99)
