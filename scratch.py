@@ -38,3 +38,5 @@ state = np.array([
 rotorAnim.update(state)
 
 plt.show(block=True)
+
+# Kenny's test
