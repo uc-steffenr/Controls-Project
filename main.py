@@ -1,46 +1,64 @@
 import os
 os.system('cls' if os.name == 'nt' else 'clear') #this is my line. Don't touch
 import matplotlib.pyplot as plt
+import matplotlib.animation as animation
 import rotorParams as P
 import numpy as np
-from rotorAnimation import rotorAnimation
-import matplotlib.animation as animation
-
 # include signal generator
 from rotorAnimation import rotorAnimation
-# include dataplotter once I know how to use it
+from dataPlotter import dataPlotter
 from rotorDynamics import rotorDynamics
 # include controller when that works
-animy = rotorAnimation()
-rotor = rotorDynamics()
-# reference stuff
-# dataplotter
 
-#animation = rotorAnimation()
-# controller
+#################################################
+#              SIMULATION PARAMETERS            #
+#################################################
+FUNCANIMATE = False 
+plotList = ["x", "y", "z", "phi", "theta", "psi"]
+#################################################
+# TODO add sparate option for static plots
+# TODO add option to funcAnimate dataPlots
+
+rotor = rotorDynamics()
+ref = np.array([0,0,0])
+data = dataPlotter(plotList)
+animy = rotorAnimation()
+control = np.ones(1)
+
 
 t = P.t_start
-X = P.state0
-X_history = X.T
-i=0
-while t< P.t_end:
+if FUNCANIMATE:
+    x = rotor.state
+    x_history = x.T
+    i = 0
+
+# outer loop... plot timesteps
+while t < P.t_end:
     t_next_plot = t + P.t_plot
 
+    # inner loop... calculate new states between plot timesteps
     while t < t_next_plot:
-        state = rotor.state
-        y = rotor.update(state)
-        X = rotor.state
+        f = (P.mc + 4*P.mf)*P.g/4
+        F = np.array([[f],[f],[f],[f]])
+        x = rotor.state
+        y = rotor.update(F)
         t = t + P.Ts
     
-    #animation.update(state)
-    X_history = np.append(X_history, X.T, axis=0)
-    i += 1
-    # dataplot
-    #plt.pause(0.0001)
+    if FUNCANIMATE:
+        x_history = np.append(x_history,x.T,axis=0)
+        data.storeHistory(t,ref,x,control)
+        i += 1
+    else:
+        animy.update(rotor.state)
+        data.update(t,ref,rotor.state,control)
+        plt.pause(0.0001)
 
-ani = animation.FuncAnimation(animy.fig, animy.update, int(i), fargs=(X_history,))
-plt.show()
-
-# print('Press key to close')
-# plt.waitforbuttonpress()
-# plt.close()
+# post-processing for animation or close sim
+if FUNCANIMATE:
+    ani = animation.FuncAnimation(animy.fig, animy.updateAnim, int(i), fargs=(x_history,))
+    data.staticPlot(t,ref,x,control)
+    plt.show(block=True)
+else:
+    print('Press key to close')
+    plt.waitforbuttonpress()
+    plt.close()

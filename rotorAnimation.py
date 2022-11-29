@@ -15,7 +15,7 @@ class rotorAnimation:
         # NOTE MAKE SURE TO UPDATE LIMITS EVERY TIME AROUND
         self.ax.set_xlim(P.x0-self.lim,P.x0+self.lim)
         self.ax.set_ylim(P.y0-self.lim,P.y0+self.lim)
-        self.ax.set_zlim(P.z0-self.lim,P.z0+self.lim)
+        self.ax.set_zlim(-P.z0-self.lim,-P.z0+self.lim)
         self.handle = []
         self.circle_size = 50 # number of points for fan circle
 
@@ -36,15 +36,11 @@ class rotorAnimation:
         #         self.circle_size=val
     
     from _drawRotor import drawCenter, drawArms, drawFans
-    
-    def update(self,i, states):
-        x = states[i, 0]
-        y = states[i, 1]
-        z = states[i, 2]
-        phi = states[i, 3]
-        theta = states[i, 4]
-        psi = states[i, 5]
-        state = np.array([[x, y, z, phi, theta, psi]]).T
+
+    def update(self,state):
+        x = state.item(0)
+        y = state.item(1)
+        z = state.item(2)
 
         self.drawCenter(state,face_color='r',edge_color='k',lw=1)
         self.drawArms(state)
@@ -55,6 +51,27 @@ class rotorAnimation:
         else:
             self.ax.set_xlim(x-self.lim,x+self.lim)
             self.ax.set_ylim(y-self.lim,y+self.lim)
-            self.ax.set_zlim(-z-self.lim,-z+self.lim)
+            self.ax.set_zlim(z-self.lim,z+self.lim)
+        return
+    
+    def updateAnim(self,i,states):
+        x = states[i,0]
+        y = states[i,1]
+        z = states[i,2]
+        phi = states[i,3]
+        theta = states[i,4]
+        psi = states[i,5]
+        state = np.array([[x,y,z,phi,theta,psi]]).T
+
+        self.drawCenter(state,face_color='r',edge_color='k',lw=1)
+        self.drawArms(state)
+        self.drawFans(state)
+
+        if self.flag_init:
+            self.flag_init = False
+        else:
+            self.ax.set_xlim(x-self.lim,x+self.lim)
+            self.ax.set_ylim(y-self.lim,y+self.lim)
+            self.ax.set_zlim(z-self.lim,z+self.lim)
         return
     

@@ -92,7 +92,7 @@ def drawCenter(self,state,**kwargs):
     ])
     self.face6 = np.copy(self.face5); self.face6[:,0:1] *= -1
 
-    T = np.array([px,py,-pz])
+    T = np.array([px,py,pz])
     T = np.tile(T,(self.face1.shape[0],1))
 
     # rotate and translate points
@@ -167,7 +167,7 @@ def drawArms(self,state):
         [0,-y2,0]           # arm 4 points
     ])
 
-    T = np.array([px,py,-pz])
+    T = np.array([px,py,pz])
     T = np.tile(T,(verts.shape[0],1))
 
     verts = (verts @ R(psi,theta,phi)) + T
@@ -223,7 +223,7 @@ def drawFans(self,state):
     fan4 = np.array([-P.rf*c(alpha),-x+P.rf*s(alpha),np.zeros(self.circle_size)])
 
 
-    T = np.array([px,py,-pz])
+    T = np.array([px,py,pz])
     
     for i in range(fan1.shape[1]):
         fan1[:,i] = np.matmul(fan1[:,i],R(psi,theta,phi)) + T
