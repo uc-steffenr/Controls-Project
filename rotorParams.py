@@ -24,12 +24,18 @@ Jx = (1/12)*mc*(sc**2 + h**2) + 2*d**2*mf
 Jy = (1/12)*mc*(sc**2 + h**2) + 2*d**2*mf
 Jz = (1/12)*mc*2*sc**2 + 4*d**2*mf
 # essentially just sum of rectangular prism J and off-axis point mass J
+
+# ----------------------------------------------
+#               OTHER PARAMETERS
+# ----------------------------------------------
 g = 9.81
+mu_x = 0.1
+mu_y = 0.1
+mu_z = 0.1
 
 # ----------------------------------------------
 #             INITIAL CONDITIONS
 # ----------------------------------------------
-
 x0 = 0
 y0 = 0
 z0 = 0
@@ -37,12 +43,12 @@ phi0 = 0 * np.pi/180
 theta0 = 0 * np.pi/180
 psi0 = 0 * np.pi/180
 
-xdot0 = 0.0
+xdot0 = 10.0
 ydot0 = 0.0
 zdot0 = 0.0
 phidot0 = 0.0 * np.pi/180
 thetadot0 = 0.0 * np.pi/180
-psidot0 = 10.0 * np.pi/180
+psidot0 = 0.0 * np.pi/180
 
 # ----------------------------------------------
 #           SIMULATION PARAMETERS

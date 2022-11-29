@@ -8,7 +8,15 @@ import random as r
 def generateWind(self):
     return
 
-def ForcesAndMoments(self,M,phi,theta,psi,F):    
+def ForcesAndMoments(self,state,F):    
+    phi = self.state.item(3)
+    theta = self.state.item(4)
+    psi = self.state.item(5)
+    u = self.state.item(6)
+    v = self.state.item(7)
+    w = self.state.item(8)
+
+    M = P.mc + 4*P.mf
     # differential forces from each rotor
     df = F.item(0) # front
     dr = F.item(1) # right
@@ -27,8 +35,8 @@ def ForcesAndMoments(self,M,phi,theta,psi,F):
     tau_theta = P.d*(df - db)
     tau_psi = tau_r + tau_l - tau_f - tau_b
 
-    fx = Ftot * (-c(phi)*s(theta)*c(psi) - s(phi)*s(psi))
-    fy = Ftot * (-c(phi)*s(theta)*s(psi) + s(phi)*c(psi))
-    fz = M*P.g - Ftot*c(phi)*c(theta)
+    fx = Ftot * (-c(phi)*s(theta)*c(psi) - s(phi)*s(psi)) - M*P.mu_x*u
+    fy = Ftot * (-c(phi)*s(theta)*s(psi) + s(phi)*c(psi)) - M*P.mu_y*v
+    fz = M*P.g - Ftot*c(phi)*c(theta) - M*P.mu_z*w
 
     return fx,fy,fz,tau_phi,tau_theta,tau_psi

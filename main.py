@@ -12,9 +12,9 @@ from rotorDynamics import rotorDynamics
 #              SIMULATION PARAMETERS            #
 #################################################
 FUNCANIMATE = False 
-plotList = ["x", "y", "z", "phi", "theta", "psi"]
+plotList = ["x", "y", "z", "u", "v", "w"]
 #################################################
-# TODO add sparate option for static plots
+# TODO add separate option for static plots
 # TODO add option to funcAnimate dataPlots
 
 rotor = rotorDynamics()
@@ -36,8 +36,8 @@ while t < P.t_end:
 
     # inner loop... calculate new states between plot timesteps
     while t < t_next_plot:
-        f = (P.mc + 4*P.mf)*P.g/4
-        F = np.array([[f],[f],[f],[f]])
+        f = (P.mc + 4*P.mf)*P.g/2
+        F = np.array([[f],[0],[f],[0]])
         x = rotor.state
         y = rotor.update(F)
         t = t + P.Ts

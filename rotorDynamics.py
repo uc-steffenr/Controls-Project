@@ -30,7 +30,7 @@ class rotorDynamics:
         r = state.item(11)
         M = P.mc + 4*P.mf
 
-        fx,fy,fz,tau_phi,tau_theta,tau_psi = self.ForcesAndMoments(M,phi,theta,psi,F)
+        fx,fy,fz,tau_phi,tau_theta,tau_psi = self.ForcesAndMoments(state,F)
 
         pxddot = fx/M
         pyddot = fy/M
