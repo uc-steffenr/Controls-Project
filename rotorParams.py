@@ -42,7 +42,7 @@ ydot0 = 0.0
 zdot0 = 0.0
 phidot0 = 0.0 * np.pi/180
 thetadot0 = 0.0 * np.pi/180
-psidot0 = 1.0 * np.pi/180
+psidot0 = 10.0 * np.pi/180
 
 # ----------------------------------------------
 #           SIMULATION PARAMETERS
