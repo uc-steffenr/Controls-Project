@@ -7,6 +7,7 @@ class VTOLDynamics:
     def __init__(self):
         self.state = P.state0
         self.Ts = P.Ts
+        self.count = 0
         #self.PE = self.ml*self.g(self.h-self.d*sin(self.theta))   +   self.mc*self.g*self.h   +   self.mr*self.g*(self.h+self.d*sin(self.theta))
         #self.L = self.KE-self.PE
 #DONE
@@ -35,6 +36,9 @@ class VTOLDynamics:
         
         # Store state variables in a readable format
         x = state
+        self.count += 2
+        if self.count >1: quit()
+        
         ub = x[0,0]
         vb = x[1,0]
         wb = x[2,0]
@@ -106,7 +110,3 @@ class VTOLDynamics:
         #self.saturate_bar()
         y = self.h()
         return y
-
-dyno = VTOLDynamics()
-
-dyno.update(u=[1,1,1,1])
