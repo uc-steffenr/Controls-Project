@@ -7,32 +7,38 @@ from numpy import sin as s
 from numpy import cos as c
 import rotorParams as P
 
+# NOTE: DOWN IS POSITIVE
+
+# rotation matrix sign changes come from 'Quadrotor Dynamics and Control Rev 0.1'
 def rotYaw(a):
     R_ = np.array([
-        [c(a), -s(a), 0],
-        [s(a), c(a), 0],
+        [c(a), s(a), 0], # changing the sin from - to +
+        [-s(a), c(a), 0], # changing the sin from + to -
         [0, 0, 1]
     ])
     return R_
 
 def rotPitch(b):
     R_ = np.array([
-        [c(b), 0, s(b)],
+        [c(b), 0, -s(b)], # changing the sin from + to -
         [0, 1, 0],
-        [-s(b), 0, c(b)]
+        [s(b), 0, c(b)] # changing the sin from - to +
     ])
     return R_
 
 def rotRoll(g):
     R_ = np.array([
         [1, 0, 0],
-        [0, c(g), -s(g)],
-        [0, s(g), c(g)]
+        [0, c(g), s(g)], # changing the sin from - to +
+        [0, -s(g), c(g)] # changing the sin from + to -
     ])
     return R_
 
+# changed rotation matrix multiplication order based on reference
+# mentioned above
 def R(a,b,g):
-    r = rotYaw(a) @ rotPitch(b) @ rotRoll(g)
+    # r = rotYaw(a) @ rotPitch(b) @ rotRoll(g)
+    r = rotRoll(g) @ rotPitch(b) @ rotYaw(a)
     return r
 
 def drawCenter(self,state,**kwargs):
@@ -61,32 +67,32 @@ def drawCenter(self,state,**kwargs):
 
     # top and bottom faces (z constant)
     self.face1 = np.array([
-        [x,0,z],
-        [0,x,z],
-        [-x,0,z],
-        [0,-x,z]
+        [x,x,z],
+        [-x,x,z],
+        [-x,-x,z],
+        [x,-x,z]
     ])
     self.face2 = np.copy(self.face1); self.face2[:,2] *= -1
 
     # first set of lateral faces
     self.face3 = np.array([
-        [x,0,z],
-        [0,x,z],
-        [0,x,-z],
-        [x,0,-z]
+        [x,x,z],
+        [-x,x,z],
+        [-x,x,-z],
+        [x,x,-z]
     ])
     self.face4 = np.copy(self.face3); self.face4[:,0:1] *= -1
 
     # second set of lateral faces
     self.face5 = np.array([
-        [x,0,z],
-        [0,-x,z],
-        [0,-x,-z],
-        [x,0,-z]
+        [x,x,z],
+        [x,-x,z],
+        [x,-x,-z],
+        [x,x,-z]
     ])
     self.face6 = np.copy(self.face5); self.face6[:,0:1] *= -1
 
-    T = np.array([px,py,pz])
+    T = np.array([px,py,-pz])
     T = np.tile(T,(self.face1.shape[0],1))
 
     # rotate and translate points
@@ -151,17 +157,17 @@ def drawArms(self,state):
     # z = 0
 
     verts = np.array([
-        [x1,0,0],
-        [x2,0,0],           # arm 1 points
-        [-x1,0,0],
-        [-x2,0,0],          # arm 2 points
-        [0,y1,0],
-        [0,y2,0],           # arm 3 points
-        [0,-y1,0],
-        [0,-y2,0]           # arm 4 points
+        [x1,y1,0],
+        [x2,y2,0],           # arm 1 points
+        [-x1,y1,0],
+        [-x2,y2,0],          # arm 2 points
+        [x1,-y1,0],
+        [x2,-y2,0],           # arm 3 points
+        [-x1,-y1,0],
+        [-x2,-y2,0]           # arm 4 points
     ])
 
-    T = np.array([px,py,pz])
+    T = np.array([px,py,-pz])
     T = np.tile(T,(verts.shape[0],1))
 
     verts = (verts @ R(psi,theta,phi)) + T
@@ -211,13 +217,13 @@ def drawFans(self,state):
     alpha = np.linspace(0,2*np.pi,self.circle_size)
     x = np.sqrt(2)*P.d + P.sc/2
 
-    fan1 = np.array([x-P.rf*c(alpha),P.rf*s(alpha),np.zeros(self.circle_size)])
-    fan2 = np.array([-x-P.rf*c(alpha),P.rf*s(alpha),np.zeros(self.circle_size)])
-    fan3 = np.array([-P.rf*c(alpha),x+P.rf*s(alpha),np.zeros(self.circle_size)])
-    fan4 = np.array([-P.rf*c(alpha),-x+P.rf*s(alpha),np.zeros(self.circle_size)])
+    fan1 = np.array([x-P.rf*c(alpha),x+P.rf*s(alpha),np.zeros(self.circle_size)])
+    fan2 = np.array([-x-P.rf*c(alpha),x-P.rf*s(alpha),np.zeros(self.circle_size)])
+    fan3 = np.array([-x-P.rf*c(alpha),-x+P.rf*s(alpha),np.zeros(self.circle_size)])
+    fan4 = np.array([x-P.rf*c(alpha),-x+P.rf*s(alpha),np.zeros(self.circle_size)])
 
 
-    T = np.array([px,py,pz])
+    T = np.array([px,py,-pz])
     
     for i in range(fan1.shape[1]):
         fan1[:,i] = np.matmul(fan1[:,i],R(psi,theta,phi)) + T

@@ -51,6 +51,6 @@ class rotorAnimation:
         else:
             self.ax.set_xlim(x-self.lim,x+self.lim)
             self.ax.set_ylim(y-self.lim,y+self.lim)
-            self.ax.set_zlim(z-self.lim,z+self.lim)
+            self.ax.set_zlim(-z-self.lim,-z+self.lim)
         return
     

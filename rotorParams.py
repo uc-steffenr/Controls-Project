@@ -3,14 +3,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # ----------------------------------------------
-#         MASSES AND MOMENTS OF INERTIA
-# ----------------------------------------------
-mc = 0.5 # kg
-mf = 0.2 # kg
-Jc = 2
-Jf = 2 # these are placeholders for real numbers
-
-# ----------------------------------------------
 #             DIMENSIONS OF ROTOR
 # ----------------------------------------------
 
@@ -19,6 +11,19 @@ d = 0.04 # m -> length of rod connecting fan to center
 rf = 0.03 # m -> radius of fan
 h = 0.02 # m -> thickness of center
 leg_l = 0.005 # m -> length of landing legs
+
+# ----------------------------------------------
+#         MASSES AND MOMENTS OF INERTIA
+# ----------------------------------------------
+mc = 0.5 # kg
+mf = 0.2 # kg
+
+# from https://en.wikipedia.org/wiki/List_of_moments_of_inertia
+# and https://scholarsarchive.byu.edu/cgi/viewcontent.cgi?article=2324&context=facpub
+Jx = (1/12)*mc*(sc**2 + h**2) + 2*d**2*mf
+Jy = (1/12)*mc*(sc**2 + h**2) + 2*d**2*mf
+Jz = (1/12)*mc*2*sc**2 + 4*d**2*mf
+# essentially just sum of rectangular prism J and off-axis point mass J
 
 # ----------------------------------------------
 #             INITIAL CONDITIONS
@@ -34,9 +39,9 @@ psi0 = 0 * np.pi/180
 xdot0 = 0.0
 ydot0 = 0.0
 zdot0 = 0.0
-phidot0 = 0.0
-thetadot0 = 0.0
-psidot0 = 0.0
+phidot0 = 0.0 * np.pi/180
+thetadot0 = 10.0 * np.pi/180
+psidot0 = 0.0 * np.pi/180
 
 # ----------------------------------------------
 #           SIMULATION PARAMETERS
