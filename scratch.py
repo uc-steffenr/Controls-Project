@@ -23,7 +23,7 @@ plt.waitforbuttonpress()
 state = np.array([
     [5],
     [12],
-    [-9],
+    [9],
     [30 * np.pi/180], # -> phi, roll
     [-60 * np.pi/180], # -> theta, pitch
     [0 * np.pi/180], # -> psi, yaw

@@ -40,7 +40,7 @@ xdot0 = 0.0
 ydot0 = 0.0
 zdot0 = 0.0
 phidot0 = 0.0 * np.pi/180
-thetadot0 = 0.0 * np.pi/180
+thetadot0 = 10.0 * np.pi/180
 psidot0 = 0.0 * np.pi/180
 
 # ----------------------------------------------
