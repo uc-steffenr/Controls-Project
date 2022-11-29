@@ -25,7 +25,7 @@ state = np.array([
     [12],
     [-9],
     [30 * np.pi/180], # -> phi, roll
-    [0 * np.pi/180], # -> theta, pitch
+    [-60 * np.pi/180], # -> theta, pitch
     [0 * np.pi/180], # -> psi, yaw
     [0],
     [0],

@@ -7,5 +7,5 @@ import random as r
 def generateWind(self):
     return
 
-def ForcesAndMoments(self,state):
-    return
+def ForcesAndMoments(self,state,F):
+    return 0,0,0,0,0,0

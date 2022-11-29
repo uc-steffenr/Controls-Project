@@ -61,28 +61,28 @@ def drawCenter(self,state,**kwargs):
 
     # top and bottom faces (z constant)
     self.face1 = np.array([
-        [x,0,z],
-        [0,x,z],
-        [-x,0,z],
-        [0,-x,z]
+        [x,x,z],
+        [-x,x,z],
+        [-x,-x,z],
+        [x,-x,z]
     ])
     self.face2 = np.copy(self.face1); self.face2[:,2] *= -1
 
     # first set of lateral faces
     self.face3 = np.array([
-        [x,0,z],
-        [0,x,z],
-        [0,x,-z],
-        [x,0,-z]
+        [x,x,z],
+        [-x,x,z],
+        [-x,x,-z],
+        [x,x,-z]
     ])
     self.face4 = np.copy(self.face3); self.face4[:,0:1] *= -1
 
     # second set of lateral faces
     self.face5 = np.array([
-        [x,0,z],
-        [0,-x,z],
-        [0,-x,-z],
-        [x,0,-z]
+        [x,x,z],
+        [x,-x,z],
+        [x,-x,-z],
+        [x,x,-z]
     ])
     self.face6 = np.copy(self.face5); self.face6[:,0:1] *= -1
 
@@ -151,14 +151,14 @@ def drawArms(self,state):
     # z = 0
 
     verts = np.array([
-        [x1,0,0],
-        [x2,0,0],           # arm 1 points
-        [-x1,0,0],
-        [-x2,0,0],          # arm 2 points
-        [0,y1,0],
-        [0,y2,0],           # arm 3 points
-        [0,-y1,0],
-        [0,-y2,0]           # arm 4 points
+        [x1,y1,0],
+        [x2,y2,0],           # arm 1 points
+        [-x1,y1,0],
+        [-x2,y2,0],          # arm 2 points
+        [x1,-y1,0],
+        [x2,-y2,0],           # arm 3 points
+        [-x1,-y1,0],
+        [-x2,-y2,0]           # arm 4 points
     ])
 
     T = np.array([px,py,pz])
@@ -211,10 +211,10 @@ def drawFans(self,state):
     alpha = np.linspace(0,2*np.pi,self.circle_size)
     x = np.sqrt(2)*P.d + P.sc/2
 
-    fan1 = np.array([x-P.rf*c(alpha),P.rf*s(alpha),np.zeros(self.circle_size)])
-    fan2 = np.array([-x-P.rf*c(alpha),P.rf*s(alpha),np.zeros(self.circle_size)])
-    fan3 = np.array([-P.rf*c(alpha),x+P.rf*s(alpha),np.zeros(self.circle_size)])
-    fan4 = np.array([-P.rf*c(alpha),-x+P.rf*s(alpha),np.zeros(self.circle_size)])
+    fan1 = np.array([x-P.rf*c(alpha),x+P.rf*s(alpha),np.zeros(self.circle_size)])
+    fan2 = np.array([-x-P.rf*c(alpha),x-P.rf*s(alpha),np.zeros(self.circle_size)])
+    fan3 = np.array([-x-P.rf*c(alpha),-x+P.rf*s(alpha),np.zeros(self.circle_size)])
+    fan4 = np.array([x-P.rf*c(alpha),-x+P.rf*s(alpha),np.zeros(self.circle_size)])
 
 
     T = np.array([px,py,pz])
