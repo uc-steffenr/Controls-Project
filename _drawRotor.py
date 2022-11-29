@@ -157,14 +157,14 @@ def drawArms(self,state):
     # z = 0
 
     verts = np.array([
-        [x1,y1,0],
-        [x2,y2,0],           # arm 1 points
-        [-x1,y1,0],
-        [-x2,y2,0],          # arm 2 points
-        [x1,-y1,0],
-        [x2,-y2,0],           # arm 3 points
-        [-x1,-y1,0],
-        [-x2,-y2,0]           # arm 4 points
+        [x1,0,0],
+        [x2,0,0],           # arm 1 points
+        [-x1,0,0],
+        [-x2,0,0],          # arm 2 points
+        [0,y1,0],
+        [0,y2,0],           # arm 3 points
+        [0,-y1,0],
+        [0,-y2,0]           # arm 4 points
     ])
 
     T = np.array([px,py,-pz])
@@ -217,10 +217,10 @@ def drawFans(self,state):
     alpha = np.linspace(0,2*np.pi,self.circle_size)
     x = np.sqrt(2)*P.d + P.sc/2
 
-    fan1 = np.array([x-P.rf*c(alpha),x+P.rf*s(alpha),np.zeros(self.circle_size)])
-    fan2 = np.array([-x-P.rf*c(alpha),x-P.rf*s(alpha),np.zeros(self.circle_size)])
-    fan3 = np.array([-x-P.rf*c(alpha),-x+P.rf*s(alpha),np.zeros(self.circle_size)])
-    fan4 = np.array([x-P.rf*c(alpha),-x+P.rf*s(alpha),np.zeros(self.circle_size)])
+    fan1 = np.array([x-P.rf*c(alpha),P.rf*s(alpha),np.zeros(self.circle_size)])
+    fan2 = np.array([-x-P.rf*c(alpha),P.rf*s(alpha),np.zeros(self.circle_size)])
+    fan3 = np.array([-P.rf*c(alpha),x+P.rf*s(alpha),np.zeros(self.circle_size)])
+    fan4 = np.array([-P.rf*c(alpha),-x+P.rf*s(alpha),np.zeros(self.circle_size)])
 
 
     T = np.array([px,py,-pz])
