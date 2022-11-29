@@ -1,3 +1,5 @@
+import os
+os.system('cls' if os.name == 'nt' else 'clear') #this is my line. Don't touch
 import matplotlib.pyplot as plt
 import rotorParams as P
 import numpy as np
