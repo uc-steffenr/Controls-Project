@@ -13,6 +13,7 @@ Jf = 2 # these are placeholders for real numbers
 # ----------------------------------------------
 #             DIMENSIONS OF ROTOR
 # ----------------------------------------------
+
 sc = 0.05 # m -> length of side of square
 d = 0.04 # m -> length of rod connecting fan to center
 rf = 0.03 # m -> radius of fan
@@ -22,6 +23,7 @@ leg_l = 0.005 # m -> length of landing legs
 # ----------------------------------------------
 #             INITIAL CONDITIONS
 # ----------------------------------------------
+
 x0 = 0
 y0 = 0
 z0 = 0
