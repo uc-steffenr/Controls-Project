@@ -29,6 +29,6 @@ def ForcesAndMoments(self,M,phi,theta,psi,F):
 
     fx = Ftot * (-c(phi)*s(theta)*c(psi) - s(phi)*s(psi))
     fy = Ftot * (-c(phi)*s(theta)*s(psi) + s(phi)*c(psi))
-    fz = -M*P.g + Ftot*c(phi)*c(theta)
+    fz = M*P.g - Ftot*c(phi)*c(theta)
 
     return fx,fy,fz,tau_phi,tau_theta,tau_psi

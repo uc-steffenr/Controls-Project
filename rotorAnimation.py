@@ -15,7 +15,7 @@ class rotorAnimation:
         # NOTE MAKE SURE TO UPDATE LIMITS EVERY TIME AROUND
         self.ax.set_xlim(P.x0-self.lim,P.x0+self.lim)
         self.ax.set_ylim(P.y0-self.lim,P.y0+self.lim)
-        self.ax.set_zlim(P.z0-self.lim,P.z0+self.lim)
+        self.ax.set_zlim(-P.z0-self.lim,-P.z0+self.lim)
         self.handle = []
         self.circle_size = 50 # number of points for fan circle
 
@@ -51,6 +51,6 @@ class rotorAnimation:
         else:
             self.ax.set_xlim(x-self.lim,x+self.lim)
             self.ax.set_ylim(y-self.lim,y+self.lim)
-            self.ax.set_zlim(-z-self.lim,-z+self.lim)
+            self.ax.set_zlim(z-self.lim,z+self.lim)
         return
     

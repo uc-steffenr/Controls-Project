@@ -6,7 +6,7 @@ import rotorParams as P
 
 class rotorDynamics:
     def __init__(self, alpha=0.0):
-        self.state = np.array([P.x0,P.y0,P.z0,P.phi0,P.theta0,P.psi0,P.xdot0,P.ydot0,P.zdot0,P.phidot0,P.psidot0,P.thetadot0])
+        self.state = np.array([P.x0,P.y0,-P.z0,P.phi0,-P.theta0,-P.psi0,P.xdot0,P.ydot0,-P.zdot0,P.phidot0,-P.thetadot0,-P.psidot0])
         self.state = np.expand_dims(self.state,1)
         self.Ts = P.Ts
         return
@@ -59,7 +59,7 @@ class rotorDynamics:
     def h(self):
         pn = self.state.item(0)
         pe = self.state.item(1)
-        h = self.state.item(2) # maybe make negative?
+        h = -self.state.item(2) # maybe make negative?
         phi = self.state.item(3)
         theta = self.state.item(4)
         psi = self.state.item(5)
