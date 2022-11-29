@@ -24,6 +24,7 @@ Jx = (1/12)*mc*(sc**2 + h**2) + 2*d**2*mf
 Jy = (1/12)*mc*(sc**2 + h**2) + 2*d**2*mf
 Jz = (1/12)*mc*2*sc**2 + 4*d**2*mf
 # essentially just sum of rectangular prism J and off-axis point mass J
+g = 9.81
 
 # ----------------------------------------------
 #             INITIAL CONDITIONS
@@ -40,7 +41,7 @@ xdot0 = 0.0
 ydot0 = 0.0
 zdot0 = 0.0
 phidot0 = 0.0 * np.pi/180
-thetadot0 = 10.0 * np.pi/180
+thetadot0 = 0.0 * np.pi/180
 psidot0 = 0.0 * np.pi/180
 
 # ----------------------------------------------

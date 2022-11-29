@@ -19,9 +19,6 @@ class rotorDynamics:
         return y
     
     def f(self,state,F):
-        pn = state.item(0)
-        pe = state.item(1)
-        h = state.item(2) # maybe make negative?
         phi = state.item(3)
         theta = state.item(4)
         psi = state.item(5)
@@ -33,43 +30,29 @@ class rotorDynamics:
         r = state.item(11)
         M = P.mc + 4*P.mf
 
-        fx,fy,fz,tau_phi,tau_theta,tau_psi = self.ForcesAndMoments(state,F)
+        fx,fy,fz,tau_phi,tau_theta,tau_psi = self.ForcesAndMoments(M,phi,theta,psi,F)
 
-        # rotation matrix for position time derivatives
-        # R1 = np.array([
-        #     [c(theta)*c(psi), s(phi)*s(theta)*c(psi) - c(phi)*s(psi), c(phi)*s(theta)*c(psi) + s(phi)*s(psi)],
-        #     [c(theta)*s(psi), s(phi)*s(theta)*s(psi) + c(phi)*c(psi), c(phi)*s(theta)*s(psi) - s(phi)*c(psi)],
-        #     [-s(theta), s(phi)*c(theta), c(phi)*c(theta)]
-        # ])
-        # # position time derivatives
-        # pdot = R1 @ np.array([[u],[v],[w]])
+        pxddot = fx/M
+        pyddot = fy/M
+        pzddot = fz/M
+        phiddot = tau_phi/P.Jx
+        thetaddot = tau_theta/P.Jy
+        psiddot = tau_psi/P.Jz
 
-        # velocity time derivatives
-        vdot = np.array([
-            [r*v - q*w + (1/M)*fx],
-            [p*w - r*u + (1/M)*fy],
-            [q*u - p*v + (1/M)*fz]
+        xdot = np.array([
+            [u],
+            [v],
+            [w],
+            [p],
+            [q],
+            [r],
+            [pxddot],
+            [pyddot],
+            [pzddot],
+            [phiddot],
+            [thetaddot],
+            [psiddot]
         ])
-
-        # rotation matrix for angle time derivatives
-        # R2 = np.array([
-        #     [1, s(phi)*t(theta), c(phi)*t(theta)],
-        #     [0, c(phi), -s(phi)],
-        #     [0, s(phi)/c(theta), c(phi)/c(theta)]
-        # ])
-        # # angle time derivatives
-        # adot = R2 @ np.array([[p],[q],[r]])
-
-        addot = np.array([
-            [((P.Jy - P.Jz)/P.Jx)*q*r + (1/P.Jx)*tau_phi],
-            [((P.Jz - P.Jx)/P.Jy)*p*r + (1/P.Jy)*tau_theta],
-            [((P.Jx - P.Jy)/P.Jz)*p*q + (1/P.Jz)*tau_psi]
-        ])
-
-        pdot = np.array([[u],[v],[w]])
-        adot = np.array([[p],[q],[r]])
-
-        xdot = np.vstack((pdot,vdot,adot,addot))
 
         return xdot
     
