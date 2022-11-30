@@ -12,9 +12,9 @@ class control_deez_nuts:
 
     def update(self, x_r, states):
         x = states.item(0)
-        theta = states.item(2)
+        theta = states.item(4)
         xDot = states.item(6)
-        thetaDot = states.item(8)
+        thetaDot = states.item(10)
 
         p_x = array([[x, theta, xDot, thetaDot]]).T
         pe_x = array([[x_r, 0, 0, 0]]).T
