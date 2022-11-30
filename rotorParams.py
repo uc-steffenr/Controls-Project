@@ -57,4 +57,4 @@ psidot0 = 0.0 * np.pi/180
 t_start = 0
 t_end = 2000
 Ts = 0.01
-t_plot = 2
+t_plot = .1

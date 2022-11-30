@@ -13,14 +13,14 @@ from nuts_phil import control_deez_nuts
 #################################################
 #              SIMULATION PARAMETERS            #
 #################################################
-FUNCANIMATE = True 
+FUNCANIMATE = False 
 plotList = ["x", "y", "z", "u", "v", "w"]
 #################################################
 # TODO add separate option for static plots
 # TODO add option to funcAnimate dataPlots
 
 rotor = rotorDynamics()
-ref = np.array([0,0,1])
+ref = np.array([3,0,1])
 data = dataPlotter(plotList)
 animy = rotorAnimation()
 control = np.ones(1)
