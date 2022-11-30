@@ -47,21 +47,21 @@ C = array([[1,0,0,0,0,0,0,0,0,0,0,0],
            [0,0,0,0,0,1,0,0,0,0,0,0]])
 
 #X motion gains
-A_x = np.array([
-    [0,0,1,0],
-    [0,0,0,1],
-    [0,-P.g,0,0],
-    [0,0,0,0]
-])
+A_x = np.array([[0,0,1,0],
+                [0,0,0,1],
+                [0,-P.g,0,0],
+                [0,0,0,0]])
 
-B_x = np.array([[0],[0],[0],[1/P.Jx]])
-C_x = np.array([
-    [1,0,0,0],
-    [0,1,0,0]
-])
+B_x = np.array([[0],
+                [0],
+                [0],
+                [1/P.Jx]])
+
+C_x = np.array([[1,0,0,0],
+                [0,1,0,0]])
 
 des_char_x = np.convolve([1, 2*zeta*wn_O, wn_O**2],
-                            [1, 2*zeta*wn_I, wn_I**2])
+                         [1, 2*zeta*wn_I, wn_I**2])
 
 des_poles_x = np.roots(des_char_x)
 
