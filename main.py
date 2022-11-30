@@ -14,9 +14,9 @@ from rotorDynamics import rotorDynamics
 #              SIMULATION PARAMETERS            #
 #################################################
 FUNCANIMATE = False 
-plotList = ["x", "y", "z", "phi", "theta", "psi"]
+plotList = ["x", "y", "z", "u", "v", "w"]
 #################################################
-# TODO add sparate option for static plots
+# TODO add separate option for static plots
 # TODO add option to funcAnimate dataPlots
 
 rotor = rotorDynamics()

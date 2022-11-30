@@ -30,14 +30,14 @@ class rotorDynamics:
         r = state.item(11)
         M = P.mc + 4*P.mf
 
-        fx,fy,fz,tau_phi,tau_theta,tau_psi = self.ForcesAndMoments(M,phi,theta,psi,F)
+        fx,fy,fz,tau_phi,tau_theta,tau_psi = self.ForcesAndMoments(state,F)
 
         pxddot = fx/M
         pyddot = fy/M
         pzddot = fz/M
-        phiddot = tau_phi/P.Jx
-        thetaddot = tau_theta/P.Jy
-        psiddot = tau_psi/P.Jz
+        phiddot = ((P.Jy-P.Jz)/P.Jx)*q*r + tau_phi/P.Jx
+        thetaddot = ((P.Jz-P.Jx)/P.Jy)*p*r + tau_theta/P.Jy
+        psiddot = ((P.Jx-P.Jy)/P.Jz)*p*q + tau_psi/P.Jz
 
         xdot = np.array([
             [u],
