@@ -49,12 +49,12 @@ ydot0 = 0.0
 zdot0 = 0.0
 phidot0 = 0.0 * np.pi/180
 thetadot0 = 0.0 * np.pi/180
-psidot0 = 10.0 * np.pi/180
+psidot0 = 0.0 * np.pi/180
 
 # ----------------------------------------------
 #           SIMULATION PARAMETERS
 # ----------------------------------------------
 t_start = 0
-t_end = 50
-Ts = 0.001
-t_plot = 0.1
+t_end = 2000
+Ts = 0.01
+t_plot = 2
