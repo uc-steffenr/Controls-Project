@@ -14,6 +14,7 @@ from nuts_phil import control_deez_nuts
 #              SIMULATION PARAMETERS            #
 #################################################
 FUNCANIMATE = False 
+ANIMATE = False
 plotList = ["x", "y", "z", "u", "v", "w"]
 #################################################
 # TODO add separate option for static plots
@@ -22,7 +23,8 @@ plotList = ["x", "y", "z", "u", "v", "w"]
 rotor = rotorDynamics()
 ref = np.array([3,0,1])
 data = dataPlotter(plotList)
-animy = rotorAnimation()
+if ANIMATE:
+    animy = rotorAnimation()
 control = np.ones(1)
 cont = control_deez_nuts()
 
@@ -48,21 +50,31 @@ while t < P.t_end:
         y = rotor.update(F)
         t = t + P.Ts
     
-    if FUNCANIMATE:
-        x_history = np.append(x_history,x.T,axis=0)
-        data.storeHistory(t,ref,x,control)
-        i += 1
+    if ANIMATE:
+    
+        if FUNCANIMATE:
+            x_history = np.append(x_history,x.T,axis=0)
+            data.storeHistory(t,ref,x,control)
+            i += 1
+        else:
+            animy.update(rotor.state)
+            data.update(t,ref,rotor.state,control)
+            plt.pause(0.0001)
+            
     else:
-        animy.update(rotor.state)
-        data.update(t,ref,rotor.state,control)
-        plt.pause(0.0001)
+        print(t)
+        data.storeHistory(t,ref,x,control)
 
-# post-processing for animation or close sim
-if FUNCANIMATE:
-    #ani = animation.FuncAnimation(animy.fig, animy.updateAnim, int(i), fargs=(x_history,))
-    data.staticPlot(t,ref,x,control)
-    plt.show(block=True)
+if ANIMATE:
+    # post-processing for animation or close sim
+    if FUNCANIMATE:
+        #ani = animation.FuncAnimation(animy.fig, animy.updateAnim, int(i), fargs=(x_history,))
+        data.staticPlot(t,ref,x,control)
+        plt.show(block=True)
+    else:
+        print('Press key to close')
+        plt.waitforbuttonpress()
+        plt.close()
+        
 else:
-    print('Press key to close')
-    plt.waitforbuttonpress()
-    plt.close()
+    data.staticPlot(t,ref,rotor.state,control)
