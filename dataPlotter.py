@@ -164,7 +164,7 @@ class dataPlotter:
         self.xHistory.append(states[0])  # x base position
         self.yHistory.append(states[1])  # y base position
         self.zHistory.append(states[2])  # z base position
-        
+
         self.phiHistory.append(np.rad2deg(states[3]))  
         self.thetaHistory.append(np.rad2deg(states[4]))  
         self.psiHistory.append(np.rad2deg(states[5]))

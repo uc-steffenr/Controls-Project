@@ -19,10 +19,10 @@ class rotorDynamics:
         return y
     
     def f(self,state,F):
-        Ftot = F[0]
-        tau_phi = F[1]
-        tau_theta = F[2]
-        tau_psi = F[3]
+        Ftot = F.item(0)
+        tau_phi = F.item(1)
+        tau_theta = F.item(2)
+        tau_psi = F.item(3)
 
         phi = state.item(3)
         theta = state.item(4)

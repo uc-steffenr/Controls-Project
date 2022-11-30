@@ -17,6 +17,7 @@ leg_l = 0.005 # m -> length of landing legs
 # ----------------------------------------------
 mc = 0.5 # kg
 mf = 0.2 # kg
+mass = mc+mf*4
 
 # from https://en.wikipedia.org/wiki/List_of_moments_of_inertia
 # and https://scholarsarchive.byu.edu/cgi/viewcontent.cgi?article=2324&context=facpub

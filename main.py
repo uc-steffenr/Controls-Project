@@ -20,7 +20,7 @@ plotList = ["x", "y", "z", "u", "v", "w"]
 # TODO add option to funcAnimate dataPlots
 
 rotor = rotorDynamics()
-ref = np.array([0,0,0])
+ref = np.array([5,0,0])
 data = dataPlotter(plotList)
 animy = rotorAnimation()
 control = np.ones(1)
@@ -39,8 +39,11 @@ while t < P.t_end:
 
     # inner loop... calculate new states between plot timesteps
     while t < t_next_plot:
-        f = (P.mc + 4*P.mf)*P.g/4
-        F = np.array([[f],[f],[f],[f]])
+        f_tot = (P.mc + 4*P.mf)*P.g
+        tau_phi = 0
+        tau_theta = cont.update(ref[0], rotor.state)
+        tau_psi = 0
+        F = np.array([[f_tot],[tau_phi],[tau_theta],[tau_psi]])
         x = rotor.state
         y = rotor.update(F)
         t = t + P.Ts
