@@ -38,8 +38,8 @@ while t < P.t_end:
 
     # inner loop... calculate new states between plot timesteps
     while t < t_next_plot:
-        f = (P.mc + 4*P.mf)*P.g/2
-        F = np.array([[f],[0],[f],[0]])
+        f = (P.mc + 4*P.mf)*P.g/4
+        F = np.array([[f],[f],[f],[f]])
         x = rotor.state
         y = rotor.update(F)
         t = t + P.Ts

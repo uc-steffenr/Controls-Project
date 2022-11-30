@@ -35,8 +35,8 @@ def ForcesAndMoments(self,state,F):
     tau_theta = P.d*(df - db)
     tau_psi = tau_r + tau_l - tau_f - tau_b
 
-    fx = Ftot * (-c(phi)*s(theta)*c(psi) - s(phi)*s(psi)) - M*P.mu_x*u
-    fy = Ftot * (-c(phi)*s(theta)*s(psi) + s(phi)*c(psi)) - M*P.mu_y*v
-    fz = M*P.g - Ftot*c(phi)*c(theta) - M*P.mu_z*w
+    fx = Ftot * (-c(phi)*s(theta)*c(psi) - s(phi)*s(psi)) # - M*P.mu_x*u # -> air disturbance term
+    fy = Ftot * (-c(phi)*s(theta)*s(psi) + s(phi)*c(psi)) # - M*P.mu_y*v
+    fz = M*P.g - Ftot*c(phi)*c(theta) # - M*P.mu_z*w
 
     return fx,fy,fz,tau_phi,tau_theta,tau_psi

@@ -43,12 +43,12 @@ phi0 = 0 * np.pi/180
 theta0 = 0 * np.pi/180
 psi0 = 0 * np.pi/180
 
-xdot0 = 10.0
+xdot0 = 0.0
 ydot0 = 0.0
 zdot0 = 0.0
 phidot0 = 0.0 * np.pi/180
 thetadot0 = 0.0 * np.pi/180
-psidot0 = 0.0 * np.pi/180
+psidot0 = 10.0 * np.pi/180
 
 # ----------------------------------------------
 #           SIMULATION PARAMETERS
