@@ -8,7 +8,7 @@ import numpy as np
 from rotorAnimation import rotorAnimation
 from dataPlotter import dataPlotter
 from rotorDynamics import rotorDynamics
-# include controller when that works
+from nuts_phil import control_deez_nuts
 
 #################################################
 #              SIMULATION PARAMETERS            #
@@ -24,6 +24,7 @@ ref = np.array([0,0,0])
 data = dataPlotter(plotList)
 animy = rotorAnimation()
 control = np.ones(1)
+cont = control_deez_nuts()
 
 
 t = P.t_start
