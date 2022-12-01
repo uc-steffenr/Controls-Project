@@ -15,9 +15,9 @@ from nuts_phil import control_deez_nuts
 #              SIMULATION PARAMETERS            #
 #################################################
 FUNCANIMATE = False 
-ANIMATE = True
+ANIMATE = False
 # plotList = ["x", "y", "z", "u", "v", "w"]
-plotList = ["x", "y", "z", "psi", "theta"]
+plotList = ["x", "y", "z", "phi", "theta", "psi"]
 # plotList = ["psi"]
 
 
@@ -28,7 +28,7 @@ plotList = ["x", "y", "z", "psi", "theta"]
 
 
 rotor = rotorDynamics()
-ref = np.array([3,3,1, np.deg2rad(0)])
+ref = np.array([3,3,1, np.deg2rad(15)])
 data = dataPlotter(plotList)
 
 if ANIMATE:
