@@ -6,46 +6,46 @@ import control as cnt
 from numpy import array
 
 # Doing gain calculations
-zeta_O = 0.707
-tr_O = 1.5
-wn_O = 0.5*(np.pi/(tr_O*np.sqrt(1-zeta_O**2)))
+# zeta_O = 0.707
+# tr_O = 1.5
+# wn_O = 0.5*(np.pi/(tr_O*np.sqrt(1-zeta_O**2)))
 
-zeta_I = 0.707
-tr_I = 0.5
-wn_I = 0.5*(np.pi/(tr_I*np.sqrt(1-zeta_I**2)))
+# zeta_I = 0.707
+# tr_I = 0.5
+# wn_I = 0.5*(np.pi/(tr_I*np.sqrt(1-zeta_I**2)))
 
-# M_inner = 10
+M_inner = 8
 
-# tr_x = 0.4
-# Mp_x = 0.04
-# zeta_x = np.sqrt((np.log(Mp_x)**2)/(np.pi**2 + np.log(Mp_x)**2))
-# wn_x = 0.5*(np.pi/(tr_x*np.sqrt(1-zeta_x**2)))
+tr_x = 2
+Mp_x = 0.04
+zeta_x = np.sqrt((np.log(Mp_x)**2)/(np.pi**2 + np.log(Mp_x)**2))
+wn_x = 0.5*(np.pi/(tr_x*np.sqrt(1-zeta_x**2)))
 
 # print(zeta_x)
 # print(wn_x)
 
-# tr_th = tr_x / M_inner
-# zeta_th = zeta_x
-# wn_th = 0.5*(np.pi/(tr_th*np.sqrt(1-zeta_th**2)))
+tr_th = tr_x / M_inner
+zeta_th = zeta_x
+wn_th = 0.5*(np.pi/(tr_th*np.sqrt(1-zeta_th**2)))
 
-# tr_y = 0.4
-# Mp_y = 0.04
-# zeta_y = np.sqrt((np.log(Mp_y)**2)/(np.pi**2 + np.log(Mp_y)**2))
-# wn_y = 0.5*(np.pi/(tr_y*np.sqrt(1-zeta_y**2)))
+tr_y = 2
+Mp_y = 0.04
+zeta_y = np.sqrt((np.log(Mp_y)**2)/(np.pi**2 + np.log(Mp_y)**2))
+wn_y = 0.5*(np.pi/(tr_y*np.sqrt(1-zeta_y**2)))
 
-# tr_phi = tr_y / M_inner
-# zeta_phi = zeta_y
-# wn_phi = 0.5*(np.pi/(tr_phi*np.sqrt(1-zeta_phi**2)))
+tr_phi = tr_y / M_inner
+zeta_phi = zeta_y
+wn_phi = 0.5*(np.pi/(tr_phi*np.sqrt(1-zeta_phi**2)))
 
-# tr_z = 0.47
-# Mp_z = 0.052
-# zeta_z = np.sqrt((np.log(Mp_z)**2)/(np.pi**2 + np.log(Mp_z)**2))
-# wn_z = 0.5*(np.pi/(tr_z*np.sqrt(1-zeta_z**2)))
+tr_z = 2
+Mp_z = 0.052
+zeta_z = np.sqrt((np.log(Mp_z)**2)/(np.pi**2 + np.log(Mp_z)**2))
+wn_z = 0.5*(np.pi/(tr_z*np.sqrt(1-zeta_z**2)))
 
-# tr_psi = 0.31
-# Mp_psi = 0.042
-# zeta_psi = np.sqrt((np.log(Mp_psi)**2)/(np.pi**2 + np.log(Mp_psi)**2))
-# wn_psi = 0.5*(np.pi/(tr_psi*np.sqrt(1-zeta_psi**2)))
+tr_psi = 0.3
+Mp_psi = 0.0001
+zeta_psi = np.sqrt((np.log(Mp_psi)**2)/(np.pi**2 + np.log(Mp_psi)**2))
+wn_psi = 0.5*(np.pi/(tr_psi*np.sqrt(1-zeta_psi**2)))
 
 
 #######################################################
@@ -64,8 +64,11 @@ B_x = np.array([[0],
 C_x = np.array([[1,0,0,0],
                 [0,1,0,0]])
 
-des_char_x = np.convolve([1, 2*zeta_I*wn_I, wn_I**2],
-                         [1, 2*zeta_O*wn_O, wn_O**2])
+# des_char_x = np.convolve([1, 2*zeta_I*wn_I, wn_I**2],
+#                          [1, 2*zeta_O*wn_O, wn_O**2])
+des_char_x = np.convolve([1, 2*zeta_th*wn_th, wn_th**2],
+                         [1, 2*zeta_x*wn_x, wn_x**2])
+# des_char_x = np.array([1,2*zeta_x*wn_x,wn_x**2])
 
 des_poles_x = np.roots(des_char_x)
 
@@ -94,8 +97,11 @@ B_y = np.array([[0],
 C_y = np.array([[1,0,0,0],
                [0,1,0,0]])
 
-des_char_poly_y = np.convolve([1,2*zeta_I*wn_I,wn_I**2],
-                              [1,2*zeta_O*wn_O,wn_O**2])
+# des_char_poly_y = np.convolve([1,2*zeta_I*wn_I,wn_I**2],
+#                               [1,2*zeta_O*wn_O,wn_O**2])
+des_char_poly_y = np.convolve([1,2*zeta_phi*wn_phi,wn_phi**2],
+                              [1,2*zeta_y*wn_y,wn_y**2])
+# des_char_poly_y = np.array([1,2*zeta_y*wn_y,wn_y**2])
 des_poles_y = np.roots(des_char_poly_y)
 
 if np.linalg.matrix_rank(cnt.ctrb(A_y,B_y)) != 4:
@@ -117,7 +123,9 @@ B_z = array([[0],
 
 C_z = array([[1,0]])
 
-des_poles_z = np.roots([1,2*zeta_O*wn_O,wn_O**2])
+# des_poles_z = np.roots([1,2*zeta_O*wn_O,wn_O**2])
+des_poles_z = np.roots([1,2*zeta_z*wn_z,wn_z**2])
+
 
 if np.linalg.matrix_rank(cnt.ctrb(A_z,B_z)) != 2:
     print('The system is not controllable')
@@ -144,7 +152,8 @@ C_psi = np.array([[1,0]])
 #                               [1,2*zeta_x*wn_x,wn_x**2])
 
 #check inner/outer in case of future bugs ( First iteration done with  outer)
-des_poles_psi = np.roots([1,2*zeta_O*wn_O,wn_O**2])
+# des_poles_psi = np.roots([1,2*zeta_O*wn_O,wn_O**2])
+des_poles_psi = np.roots([1,2*zeta_psi*wn_psi,wn_psi**2])
 
 if np.linalg.matrix_rank(cnt.ctrb(A_psi,B_psi)) != 2:
     print('The system is not controllable')
