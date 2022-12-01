@@ -15,10 +15,13 @@ from nuts_phil import control_deez_nuts
 #################################################
 FUNCANIMATE = False 
 ANIMATE = False
-plotList = ["x", "y", "z", "u", "v", "w"]
+# plotList = ["x", "y", "z", "u", "v", "w"]
+plotList = ["x", "y", "z"]
+
 #################################################
 # TODO add separate option for static plots
 # TODO add option to funcAnimate dataPlots
+
 
 rotor = rotorDynamics()
 ref = np.array([3,0,1])
@@ -62,7 +65,7 @@ while t < P.t_end:
             plt.pause(0.0001)
             
     else:
-        print(t)
+        # print(t)
         data.storeHistory(t,ref,x,control)
 
 if ANIMATE:

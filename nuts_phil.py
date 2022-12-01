@@ -28,4 +28,5 @@ class control_deez_nuts:
         pe_z = array([[z_r, 0]]).T
 
         ftot = -(-self.K_z@(p_z-pe_z)+self.Kr_z*(z_r-z)) + (P.mass*P.g)
+
         return tau_theta.item(0), ftot.item(0)

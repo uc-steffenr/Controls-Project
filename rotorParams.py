@@ -55,6 +55,6 @@ psidot0 = 0.0 * np.pi/180
 #           SIMULATION PARAMETERS
 # ----------------------------------------------
 t_start = 0
-t_end = 2000
+t_end = 100
 Ts = 0.01
 t_plot = .1

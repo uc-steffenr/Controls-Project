@@ -6,11 +6,17 @@ import control as cnt
 from numpy import array
 
 #Doing gain calculations
-zeta = .707
-tr_O = 2.5
-tr_I = .5
-wn_O = 2.2/tr_O
-wn_I = 2.2/tr_I
+zeta_O = 0.707
+tr_O = 2.0
+wn_O = 0.5*(np.pi/(tr_O*np.sqrt(1-zeta_O**2)))
+
+
+zeta_I = 0.707
+tr_I = 2.5
+wn_I = 0.5*(np.pi/(tr_I*np.sqrt(1-zeta_I**2)))
+
+# wn_I = 2.2/tr_I
+# wn_O = 2.2/tr_O
 
 #big matrices
 A = array([[0,0,0,0,0,0,1,0,0,0,0,0],
@@ -60,8 +66,8 @@ B_x = np.array([[0],
 C_x = np.array([[1,0,0,0],
                 [0,1,0,0]])
 
-des_char_x = np.convolve([1, 2*zeta*wn_O, wn_O**2],
-                         [1, 2*zeta*wn_I, wn_I**2])
+des_char_x = np.convolve([1, 2*zeta_O*wn_O, wn_O**2],
+                         [1, 2*zeta_I*wn_I, wn_I**2])
 
 des_poles_x = np.roots(des_char_x)
 
@@ -81,11 +87,11 @@ A_z = array([[0,1],
              [0,0]])
 
 B_z = array([[0],
-             [1/P.Jz]])
+             [1/P.mass]])
 
 C_z = array([[1,0]])
 
-des_poles_z = np.roots([1,2*zeta*wn_O,wn_O**2])
+des_poles_z = np.roots([1,2*zeta_O*wn_O,wn_O**2])
 
 if np.linalg.matrix_rank(cnt.ctrb(A_z,B_z)) != 2:
     print('The system is not controllable')
