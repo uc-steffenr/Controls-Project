@@ -5,54 +5,52 @@ import rotorParams as P
 import control as cnt
 from numpy import array
 
-#Doing gain calculations
+# Doing gain calculations
 zeta_O = 0.707
-tr_O = 2.0
+tr_O = 1.5
 wn_O = 0.5*(np.pi/(tr_O*np.sqrt(1-zeta_O**2)))
 
-
 zeta_I = 0.707
-tr_I = 2.5
+tr_I = 0.5
 wn_I = 0.5*(np.pi/(tr_I*np.sqrt(1-zeta_I**2)))
 
-# wn_I = 2.2/tr_I
-# wn_O = 2.2/tr_O
+# M_inner = 10
 
-#big matrices
-A = array([[0,0,0,0,0,0,1,0,0,0,0,0],
-           [0,0,0,0,0,0,0,1,0,0,0,0],
-           [0,0,0,0,0,0,0,0,1,0,0,0],
-           [0,0,0,0,0,0,0,0,0,1,0,0],
-           [0,0,0,0,0,0,0,0,0,0,1,0],
-           [0,0,0,0,0,0,0,0,0,0,0,1],
-           [0,0,0,0,0,0,0,0,0,0,-P.g,0],
-           [0,0,0,0,0,0,0,0,0,P.g,0,0],
-           [0,0,0,0,0,0,0,0,0,0,0,0],
-           [0,0,0,0,0,0,0,0,0,0,0,0],
-           [0,0,0,0,0,0,0,0,0,0,0,0],
-           [0,0,0,0,0,0,0,0,0,0,0,0]])
+# tr_x = 0.4
+# Mp_x = 0.04
+# zeta_x = np.sqrt((np.log(Mp_x)**2)/(np.pi**2 + np.log(Mp_x)**2))
+# wn_x = 0.5*(np.pi/(tr_x*np.sqrt(1-zeta_x**2)))
 
-B = array([[0,0,0,0],
-           [0,0,0,0],
-           [0,0,0,0],
-           [0,0,0,0],
-           [0,0,0,0],
-           [0,0,0,0],
-           [0,0,0,0],
-           [0,0,0,0],
-           [1/P.mass,0,0,0],
-           [0,1/P.Jx,0,0],
-           [0,0,1/P.Jy,0],
-           [0,0,0,1/P.Jz]])
+# print(zeta_x)
+# print(wn_x)
 
-C = array([[1,0,0,0,0,0,0,0,0,0,0,0],
-           [0,1,0,0,0,0,0,0,0,0,0,0],
-           [0,0,1,0,0,0,0,0,0,0,0,0],
-           [0,0,0,1,0,0,0,0,0,0,0,0],
-           [0,0,0,0,1,0,0,0,0,0,0,0],
-           [0,0,0,0,0,1,0,0,0,0,0,0]])
+# tr_th = tr_x / M_inner
+# zeta_th = zeta_x
+# wn_th = 0.5*(np.pi/(tr_th*np.sqrt(1-zeta_th**2)))
 
-#X motion gains
+# tr_y = 0.4
+# Mp_y = 0.04
+# zeta_y = np.sqrt((np.log(Mp_y)**2)/(np.pi**2 + np.log(Mp_y)**2))
+# wn_y = 0.5*(np.pi/(tr_y*np.sqrt(1-zeta_y**2)))
+
+# tr_phi = tr_y / M_inner
+# zeta_phi = zeta_y
+# wn_phi = 0.5*(np.pi/(tr_phi*np.sqrt(1-zeta_phi**2)))
+
+# tr_z = 0.47
+# Mp_z = 0.052
+# zeta_z = np.sqrt((np.log(Mp_z)**2)/(np.pi**2 + np.log(Mp_z)**2))
+# wn_z = 0.5*(np.pi/(tr_z*np.sqrt(1-zeta_z**2)))
+
+# tr_psi = 0.31
+# Mp_psi = 0.042
+# zeta_psi = np.sqrt((np.log(Mp_psi)**2)/(np.pi**2 + np.log(Mp_psi)**2))
+# wn_psi = 0.5*(np.pi/(tr_psi*np.sqrt(1-zeta_psi**2)))
+
+
+#######################################################
+#       FULL STATE FEEDBACK CONTROL: X GAINS          #
+#######################################################
 A_x = np.array([[0,0,1,0],
                 [0,0,0,1],
                 [0,-P.g,0,0],
@@ -66,8 +64,8 @@ B_x = np.array([[0],
 C_x = np.array([[1,0,0,0],
                 [0,1,0,0]])
 
-des_char_x = np.convolve([1, 2*zeta_O*wn_O, wn_O**2],
-                         [1, 2*zeta_I*wn_I, wn_I**2])
+des_char_x = np.convolve([1, 2*zeta_I*wn_I, wn_I**2],
+                         [1, 2*zeta_O*wn_O, wn_O**2])
 
 des_poles_x = np.roots(des_char_x)
 
@@ -81,6 +79,34 @@ print('K_x: ',K_x)
 print('kr_x: ',kr_x)
 #end x motion gains
 
+# x = [y,phi,v,p] (lmao wifi and vp)
+
+A_y = np.array([[0,0,1,0],
+               [0,0,0,1],
+               [0,P.g,0,0],
+               [0,0,0,0]])
+
+B_y = np.array([[0],
+               [0],
+               [0],
+               [1/P.Jx]])
+
+C_y = np.array([[1,0,0,0],
+               [0,1,0,0]])
+
+des_char_poly_y = np.convolve([1,2*zeta_I*wn_I,wn_I**2],
+                              [1,2*zeta_O*wn_O,wn_O**2])
+des_poles_y = np.roots(des_char_poly_y)
+
+if np.linalg.matrix_rank(cnt.ctrb(A_y,B_y)) != 4:
+    print('The system is not controllable')
+else:
+    K_y = cnt.acker(A_y,B_y,des_poles_y)
+    Cr_y = np.array([[1,0,0,0]])
+    kr_y = -1/(Cr_y @ np.linalg.inv(A_y - B_y @ K_y) @ B_y)
+
+print('K_y = ',K_y)
+print('kr_y = ',kr_y)
 
 #z motion gains
 A_z = array([[0,1],
@@ -103,45 +129,16 @@ print('K_z: ',K_z)
 print('kr_z: ',kr_z)
 
 
-# x = [y,phi,v,p] (lmao wifi and vp)
-
-Ay = np.array([[0,0,1,0],
-               [0,0,0,1],
-               [0,P.g,0,0],
-               [0,0,0,0]])
-
-By = np.array([[0],
-               [0],
-               [0],
-               [1/P.Jx]])
-
-Cy = np.array([[1,0,0,0],
-               [0,1,0,0]])
-
-des_char_poly_y = np.convolve([1,2*zeta_I*wn_I,wn_I**2],
-                              [1,2*zeta_O*wn_O,wn_O**2])
-des_poles_y = np.roots(des_char_poly_y)
-
-if np.linalg.matrix_rank(cnt.ctrb(Ay,By)) != 4:
-    print('The system is not controllable')
-else:
-    K_y = cnt.acker(Ay,By,des_poles_y)
-    Cr_y = np.array([[1,0,0,0]])
-    kr_y = -1/(Cr_y @ np.linalg.inv(Ay - By @ K_y) @ By)
-
-print('Ky = ',K_y)
-print('kry = ',kr_y)
-
 # x = [psi,r]
 # xdot = [r,rdot]
 
-Apsi = np.array([[0,1],
+A_psi = np.array([[0,1],
                  [0,0]])
 
-Bpsi = np.array([[0],
+B_psi = np.array([[0],
                  [1/P.Jz]])
 
-Cpsi = np.array([[1,0]])
+C_psi = np.array([[1,0]])
 
 # des_char_poly_x = np.convolve([1,2*zeta_th*wn_th,wn_th**2],
 #                               [1,2*zeta_x*wn_x,wn_x**2])
@@ -149,12 +146,12 @@ Cpsi = np.array([[1,0]])
 #check inner/outer in case of future bugs ( First iteration done with  outer)
 des_poles_psi = np.roots([1,2*zeta_O*wn_O,wn_O**2])
 
-if np.linalg.matrix_rank(cnt.ctrb(Apsi,Bpsi)) != 2:
+if np.linalg.matrix_rank(cnt.ctrb(A_psi,B_psi)) != 2:
     print('The system is not controllable')
 else:
-    K_psi = cnt.acker(Apsi,Bpsi,des_poles_psi)
+    K_psi = cnt.acker(A_psi,B_psi,des_poles_psi)
     Cr_psi = np.array([[1,0]])
-    kr_psi = -1/(Cr_psi @ np.linalg.inv(Apsi - Bpsi @ K_psi) @ Bpsi)
+    kr_psi = -1/(Cr_psi @ np.linalg.inv(A_psi - B_psi @ K_psi) @ B_psi)
 
-print('Kpsi = ',K_psi)
-print('krpsi = ',kr_psi)
+print('K_psi = ',K_psi)
+print('kr_psi = ',kr_psi)
