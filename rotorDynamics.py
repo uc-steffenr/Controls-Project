@@ -30,11 +30,25 @@ class rotorDynamics:
         r = state.item(11)
         M = P.mc + 4*P.mf
 
-        fx,fy,fz,tau_phi,tau_theta,tau_psi = self.ForcesAndMoments(state,F)
+        Ftot = F.item(0)
+        tau_phi = F.item(1)
+        tau_theta = F.item(2)
+        tau_psi = F.item(3)
+
+        fx = Ftot * (-c(phi)*s(theta)*c(psi) - s(phi)*s(psi)) # - M*P.mu_x*u # -> air disturbance term
+        fy = Ftot * (-c(phi)*s(theta)*s(psi) + s(phi)*c(psi)) # - M*P.mu_y*v
+        fz = M*P.g - Ftot*c(phi)*c(theta) # - M*P.mu_z*w
+
+
+        # fx,fy,fz,tau_phi,tau_theta,tau_psi = self.ForcesAndMoments(state,F)
 
         pxddot = fx/M
         pyddot = fy/M
         pzddot = fz/M
+        # phiddot = tau_phi/P.Jx
+        # thetaddot = tau_theta/P.Jy
+        # psiddot = tau_psi/P.Jz
+
         phiddot = ((P.Jy-P.Jz)/P.Jx)*q*r + tau_phi/P.Jx
         thetaddot = ((P.Jz-P.Jx)/P.Jy)*p*r + tau_theta/P.Jy
         psiddot = ((P.Jx-P.Jy)/P.Jz)*p*q + tau_psi/P.Jz

@@ -9,12 +9,13 @@ from rotorAnimation import rotorAnimation
 from dataPlotter import dataPlotter
 from rotorDynamics import rotorDynamics
 # include controller when that works
+from nuts_N8 import rotorController
 
 #################################################
 #              SIMULATION PARAMETERS            #
 #################################################
 FUNCANIMATE = False 
-plotList = ["x", "y", "z", "u", "v", "w"]
+plotList = ["x", "y", "z", "phi", "theta", "psi"]
 #################################################
 # TODO add separate option for static plots
 # TODO add option to funcAnimate dataPlots
@@ -23,7 +24,9 @@ rotor = rotorDynamics()
 ref = np.array([0,0,0])
 data = dataPlotter(plotList)
 animy = rotorAnimation()
+controller = rotorController()
 control = np.ones(1)
+M = P.mc + 4*P.mf
 
 
 t = P.t_start
@@ -38,8 +41,13 @@ while t < P.t_end:
 
     # inner loop... calculate new states between plot timesteps
     while t < t_next_plot:
-        f = (P.mc + 4*P.mf)*P.g/4
-        F = np.array([[f],[f],[f],[f]])
+        # F = np.array([[M*P.g],[0],[0],[0]])
+        r_x = 0
+        r_y = 0
+        r_z = 2
+        r_psi = 0 * np.pi/180
+        Ftot,tau_phi,tau_theta,tau_psi = controller.update(r_x,r_y,r_z,r_psi,rotor.state)
+        F = np.array([[Ftot],[tau_phi],[tau_theta],[tau_psi]])
         x = rotor.state
         y = rotor.update(F)
         t = t + P.Ts
