@@ -29,6 +29,8 @@ class dataPlotter:
         self.xRefHistory = []  # reference position x_r
         self.yRefHistory = []  # reference position y_r
         self.zRefHistory = []  # reference position z_r
+        
+        self.psiRefHistory =[] # reference position psi_r
 
         self.timeHistory = []  # time
         
@@ -132,7 +134,7 @@ class dataPlotter:
                     self.handleDict[handleCount] = [self.thetaHistory]
                 elif i =="psi":
                     self.handle.append(myPlot(ax[axCount-1], xlabel='t(s)', ylabel='psi(deg)', title='Psi Position Data'))
-                    self.handleDict[handleCount] = [self.psiHistory]
+                    self.handleDict[handleCount] = [self.psiHistory, self.psiRefHistory]
                     
                 elif i =="u":
                     self.handle.append(myPlot(ax[axCount-1], xlabel='t(s)', ylabel='u(m/s)', title='U Velocity Data'))
@@ -164,7 +166,7 @@ class dataPlotter:
         self.xHistory.append(states[0])  # x base position
         self.yHistory.append(states[1])  # y base position
         self.zHistory.append(states[2])  # z base position
-        
+
         self.phiHistory.append(np.rad2deg(states[3]))  
         self.thetaHistory.append(np.rad2deg(states[4]))  
         self.psiHistory.append(np.rad2deg(states[5]))
@@ -180,6 +182,8 @@ class dataPlotter:
         self.xRefHistory.append(reference[0])
         self.yRefHistory.append(reference[1])
         self.zRefHistory.append(reference[2])
+        
+        self.psiRefHistory.append(np.rad2deg(reference[3]))
         
         self.timeHistory.append(t)  # time
         

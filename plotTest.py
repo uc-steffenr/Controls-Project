@@ -13,11 +13,11 @@ import matplotlib.pyplot as plt
 #             "u","v", "w",
 #             "p", "q", "r"]
 
-plotList = ["x", "y", "z", "phi", "theta"]
+plotList = ["x", "y", "z", "psi", "theta"]
 
 states = np.ones(12)
-ref = np.zeros(3)
-control = np.ones(1)
+ref = np.zeros(4)
+control = np.ones(4)
 t = 0.0
 
 datPlot = dataPlotter(plotList)

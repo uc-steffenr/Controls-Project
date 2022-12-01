@@ -8,25 +8,33 @@ import numpy as np
 from rotorAnimation import rotorAnimation
 from dataPlotter import dataPlotter
 from rotorDynamics import rotorDynamics
-# include controller when that works
-from nuts_N8 import rotorController
+from nuts_phil import control_deez_nuts
+
 
 #################################################
 #              SIMULATION PARAMETERS            #
 #################################################
 FUNCANIMATE = False 
-plotList = ["x", "y", "z", "phi", "theta", "psi"]
+ANIMATE = True
+# plotList = ["x", "y", "z", "u", "v", "w"]
+plotList = ["x", "y", "z", "psi", "theta"]
+# plotList = ["psi"]
+
+
+
 #################################################
 # TODO add separate option for static plots
 # TODO add option to funcAnimate dataPlots
 
+
 rotor = rotorDynamics()
-ref = np.array([0,0,0])
+ref = np.array([3,2,1, np.deg2rad(10)])
 data = dataPlotter(plotList)
-animy = rotorAnimation()
-controller = rotorController()
+
+if ANIMATE:
+    animy = rotorAnimation()
 control = np.ones(1)
-M = P.mc + 4*P.mf
+cont = control_deez_nuts()
 
 
 t = P.t_start
@@ -41,32 +49,41 @@ while t < P.t_end:
 
     # inner loop... calculate new states between plot timesteps
     while t < t_next_plot:
-        # F = np.array([[M*P.g],[0],[0],[0]])
-        r_x = 0
-        r_y = 0
-        r_z = 2
-        r_psi = 0 * np.pi/180
-        Ftot,tau_phi,tau_theta,tau_psi = controller.update(r_x,r_y,r_z,r_psi,rotor.state)
-        F = np.array([[Ftot],[tau_phi],[tau_theta],[tau_psi]])
+
+        #f_tot = (P.mc + 4*P.mf)*P.g
+        tau_phi = cont.updateY(ref[1], rotor.state)
+        tau_theta, f_tot = cont.update(ref[0], ref[2], rotor.state)
+        tau_psi = cont.updatePsi(ref[3], rotor.state)
+        F = np.array([[f_tot],[tau_phi],[tau_theta],[tau_psi]])
         x = rotor.state
         y = rotor.update(F)
         t = t + P.Ts
     
-    if FUNCANIMATE:
-        x_history = np.append(x_history,x.T,axis=0)
-        data.storeHistory(t,ref,x,control)
-        i += 1
+    if ANIMATE:
+    
+        if FUNCANIMATE:
+            x_history = np.append(x_history,x.T,axis=0)
+            data.storeHistory(t,ref,x,control)
+            i += 1
+        else:
+            animy.update(rotor.state)
+            data.update(t,ref,rotor.state,control)
+            plt.pause(0.0001)
+            
     else:
-        animy.update(rotor.state)
-        data.update(t,ref,rotor.state,control)
-        plt.pause(0.0001)
+        # print(t)
+        data.storeHistory(t,ref,x,control)
 
-# post-processing for animation or close sim
-if FUNCANIMATE:
-    ani = animation.FuncAnimation(animy.fig, animy.updateAnim, int(i), fargs=(x_history,))
-    data.staticPlot(t,ref,x,control)
-    plt.show(block=True)
+if ANIMATE:
+    # post-processing for animation or close sim
+    if FUNCANIMATE:
+        #ani = animation.FuncAnimation(animy.fig, animy.updateAnim, int(i), fargs=(x_history,))
+        data.staticPlot(t,ref,x,control)
+        plt.show(block=True)
+    else:
+        print('Press key to close')
+        plt.waitforbuttonpress()
+        plt.close()
+        
 else:
-    print('Press key to close')
-    plt.waitforbuttonpress()
-    plt.close()
+    data.staticPlot(t,ref,rotor.state,control)

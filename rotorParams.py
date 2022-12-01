@@ -17,6 +17,7 @@ leg_l = 0.005 # m -> length of landing legs
 # ----------------------------------------------
 mc = 0.5 # kg
 mf = 0.2 # kg
+mass = mc+mf*4
 
 # from https://en.wikipedia.org/wiki/List_of_moments_of_inertia
 # and https://scholarsarchive.byu.edu/cgi/viewcontent.cgi?article=2324&context=facpub
@@ -49,12 +50,12 @@ ydot0 = 0.0
 zdot0 = 0.0
 phidot0 = 0.0 * np.pi/180
 thetadot0 = 0.0 * np.pi/180
-psidot0 = 10.0 * np.pi/180
+psidot0 = 0.0 * np.pi/180
 
 # ----------------------------------------------
 #           SIMULATION PARAMETERS
 # ----------------------------------------------
 t_start = 0
-t_end = 50
-Ts = 0.001
-t_plot = 0.1
+t_end = 100
+Ts = 0.01
+t_plot = .1
