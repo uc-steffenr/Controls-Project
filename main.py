@@ -14,9 +14,11 @@ from nuts_phil import control_deez_nuts
 #              SIMULATION PARAMETERS            #
 #################################################
 FUNCANIMATE = False 
-ANIMATE = False
+ANIMATE = True
 # plotList = ["x", "y", "z", "u", "v", "w"]
-plotList = ["x", "y", "z"]
+plotList = ["x", "y", "z", "psi", "theta"]
+# plotList = ["psi"]
+
 
 #################################################
 # TODO add separate option for static plots
@@ -24,7 +26,7 @@ plotList = ["x", "y", "z"]
 
 
 rotor = rotorDynamics()
-ref = np.array([3,2,1])
+ref = np.array([3,2,1, np.deg2rad(10)])
 data = dataPlotter(plotList)
 if ANIMATE:
     animy = rotorAnimation()
@@ -47,7 +49,7 @@ while t < P.t_end:
         #f_tot = (P.mc + 4*P.mf)*P.g
         tau_phi = cont.updateY(ref[1], rotor.state)
         tau_theta, f_tot = cont.update(ref[0], ref[2], rotor.state)
-        tau_psi = 0
+        tau_psi = cont.updatePsi(ref[3], rotor.state)
         F = np.array([[f_tot],[tau_phi],[tau_theta],[tau_psi]])
         x = rotor.state
         y = rotor.update(F)

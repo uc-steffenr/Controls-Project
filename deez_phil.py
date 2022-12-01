@@ -131,3 +131,30 @@ else:
 
 print('Ky = ',K_y)
 print('kry = ',kr_y)
+
+# x = [psi,r]
+# xdot = [r,rdot]
+
+Apsi = np.array([[0,1],
+                 [0,0]])
+
+Bpsi = np.array([[0],
+                 [1/P.Jz]])
+
+Cpsi = np.array([[1,0]])
+
+# des_char_poly_x = np.convolve([1,2*zeta_th*wn_th,wn_th**2],
+#                               [1,2*zeta_x*wn_x,wn_x**2])
+
+#check inner/outer in case of future bugs ( First iteration done with  outer)
+des_poles_psi = np.roots([1,2*zeta_O*wn_O,wn_O**2])
+
+if np.linalg.matrix_rank(cnt.ctrb(Apsi,Bpsi)) != 2:
+    print('The system is not controllable')
+else:
+    K_psi = cnt.acker(Apsi,Bpsi,des_poles_psi)
+    Cr_psi = np.array([[1,0]])
+    kr_psi = -1/(Cr_psi @ np.linalg.inv(Apsi - Bpsi @ K_psi) @ Bpsi)
+
+print('Kpsi = ',K_psi)
+print('krpsi = ',kr_psi)

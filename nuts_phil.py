@@ -6,12 +6,19 @@ from numpy import array
 class control_deez_nuts:
     def __init__(self):
         self.flag = True
+        
         self.K_x = P2.K_x
         self.Kr_x = P2.kr_x
-        self.K_z = P2.K_z
-        self.Kr_z = P2.kr_z
+        
         self.K_y = P2.K_y
         self.kr_y = P2.kr_y
+        
+        self.K_z = P2.K_z
+        self.Kr_z = P2.kr_z
+        
+        self.K_psi = P2.K_psi
+        self.kr_psi = P2.kr_psi
+
         self.Ts = P.Ts
 
     def update(self, x_r, z_r, states):
@@ -55,3 +62,17 @@ class control_deez_nuts:
         tau_phi = -self.K_y @ (x-xe) + self.kr_y * (y_r - y)
 
         return tau_phi.item(0)
+    
+    def updatePsi(self,psi_r,state):
+        psi = state.item(5)
+        r = state.item(11)
+
+        x = np.array([[psi],
+                      [r]])
+        
+        xe = np.array([[psi_r],
+                       [0]])
+
+        tau_psi = -self.K_psi @ (x-xe) + self.kr_psi * (psi_r - psi)
+
+        return tau_psi.item(0)
