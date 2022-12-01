@@ -9,13 +9,20 @@ import rotorParams as P
 class rotorAnimation:
     def __init__(self):
         self.flag_init = True # first time drawing figure
+        self.FOLLOW = False  #check if figure follows rotor
         self.fig = plt.figure()
         self.ax = self.fig.add_subplot(projection='3d')
-        self.lim = 0.3 # limit for plot size
-        # NOTE MAKE SURE TO UPDATE LIMITS EVERY TIME AROUND
-        self.ax.set_xlim(P.x0-self.lim,P.x0+self.lim)
-        self.ax.set_ylim(P.y0-self.lim,P.y0+self.lim)
-        self.ax.set_zlim(-P.z0-self.lim,-P.z0+self.lim)
+        if self.FOLLOW:
+            self.lim = 0.3 # limit for plot size
+            # NOTE MAKE SURE TO UPDATE LIMITS EVERY TIME AROUND
+            self.ax.set_xlim(P.x0-self.lim,P.x0+self.lim)
+            self.ax.set_ylim(P.y0-self.lim,P.y0+self.lim)
+            self.ax.set_zlim(-P.z0-self.lim,-P.z0+self.lim)
+        else:
+            self.lim = 1 # limit for plot size
+            self.ax.set_xlim(P.x0-self.lim,P.x0+self.lim)
+            self.ax.set_ylim(P.y0-self.lim,P.y0+self.lim)
+            self.ax.set_zlim(-P.z0-self.lim,-P.z0+self.lim)
         self.handle = []
         self.circle_size = 50 # number of points for fan circle
 
@@ -49,9 +56,10 @@ class rotorAnimation:
         if self.flag_init:
             self.flag_init = False
         else:
-            self.ax.set_xlim(x-self.lim,x+self.lim)
-            self.ax.set_ylim(y-self.lim,y+self.lim)
-            self.ax.set_zlim(z-self.lim,z+self.lim)
+            if self.FOLLOW:
+                self.ax.set_xlim(x-self.lim,x+self.lim)
+                self.ax.set_ylim(y-self.lim,y+self.lim)
+                self.ax.set_zlim(z-self.lim,z+self.lim)
         return
     
     def updateAnim(self,i,states):
@@ -70,8 +78,9 @@ class rotorAnimation:
         if self.flag_init:
             self.flag_init = False
         else:
-            self.ax.set_xlim(x-self.lim,x+self.lim)
-            self.ax.set_ylim(y-self.lim,y+self.lim)
-            self.ax.set_zlim(z-self.lim,z+self.lim)
+            if self.FOLLOW:
+                self.ax.set_xlim(x-self.lim,x+self.lim)
+                self.ax.set_ylim(y-self.lim,y+self.lim)
+                self.ax.set_zlim(z-self.lim,z+self.lim)
         return
     
