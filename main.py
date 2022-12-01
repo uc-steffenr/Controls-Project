@@ -10,6 +10,7 @@ from dataPlotter import dataPlotter
 from rotorDynamics import rotorDynamics
 from nuts_phil import control_deez_nuts
 
+
 #################################################
 #              SIMULATION PARAMETERS            #
 #################################################
@@ -20,6 +21,7 @@ plotList = ["x", "y", "z", "psi", "theta"]
 # plotList = ["psi"]
 
 
+
 #################################################
 # TODO add separate option for static plots
 # TODO add option to funcAnimate dataPlots
@@ -28,6 +30,7 @@ plotList = ["x", "y", "z", "psi", "theta"]
 rotor = rotorDynamics()
 ref = np.array([3,2,1, np.deg2rad(10)])
 data = dataPlotter(plotList)
+
 if ANIMATE:
     animy = rotorAnimation()
 control = np.ones(1)
@@ -46,6 +49,7 @@ while t < P.t_end:
 
     # inner loop... calculate new states between plot timesteps
     while t < t_next_plot:
+
         #f_tot = (P.mc + 4*P.mf)*P.g
         tau_phi = cont.updateY(ref[1], rotor.state)
         tau_theta, f_tot = cont.update(ref[0], ref[2], rotor.state)

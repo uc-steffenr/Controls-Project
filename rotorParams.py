@@ -33,6 +33,7 @@ g = 9.81
 mu_x = 0.1
 mu_y = 0.1
 mu_z = 0.1
+F_max = 15 # N
 
 # ----------------------------------------------
 #             INITIAL CONDITIONS
@@ -42,7 +43,7 @@ y0 = 0
 z0 = 0
 phi0 = 0 * np.pi/180
 theta0 = 0 * np.pi/180
-psi0 = 0 * np.pi/180
+psi0 = 15 * np.pi/180
 
 xdot0 = 0.0
 ydot0 = 0.0
