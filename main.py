@@ -24,7 +24,7 @@ plotList = ["x", "y", "z"]
 
 
 rotor = rotorDynamics()
-ref = np.array([3,0,1])
+ref = np.array([3,2,1])
 data = dataPlotter(plotList)
 if ANIMATE:
     animy = rotorAnimation()
@@ -45,7 +45,7 @@ while t < P.t_end:
     # inner loop... calculate new states between plot timesteps
     while t < t_next_plot:
         #f_tot = (P.mc + 4*P.mf)*P.g
-        tau_phi = 0
+        tau_phi = cont.updateY(ref[1], rotor.state)
         tau_theta, f_tot = cont.update(ref[0], ref[2], rotor.state)
         tau_psi = 0
         F = np.array([[f_tot],[tau_phi],[tau_theta],[tau_psi]])

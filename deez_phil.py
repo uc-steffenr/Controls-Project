@@ -101,3 +101,33 @@ else:
     kr_z = -1/(Cr_z @ np.linalg.inv(A_z - B_z @ K_z) @ B_z)
 print('K_z: ',K_z)
 print('kr_z: ',kr_z)
+
+
+# x = [y,phi,v,p] (lmao wifi and vp)
+
+Ay = np.array([[0,0,1,0],
+               [0,0,0,1],
+               [0,P.g,0,0],
+               [0,0,0,0]])
+
+By = np.array([[0],
+               [0],
+               [0],
+               [1/P.Jx]])
+
+Cy = np.array([[1,0,0,0],
+               [0,1,0,0]])
+
+des_char_poly_y = np.convolve([1,2*zeta_I*wn_I,wn_I**2],
+                              [1,2*zeta_O*wn_O,wn_O**2])
+des_poles_y = np.roots(des_char_poly_y)
+
+if np.linalg.matrix_rank(cnt.ctrb(Ay,By)) != 4:
+    print('The system is not controllable')
+else:
+    K_y = cnt.acker(Ay,By,des_poles_y)
+    Cr_y = np.array([[1,0,0,0]])
+    kr_y = -1/(Cr_y @ np.linalg.inv(Ay - By @ K_y) @ By)
+
+print('Ky = ',K_y)
+print('kry = ',kr_y)
