@@ -33,17 +33,17 @@ g = 9.81
 mu_x = 0.1
 mu_y = 0.1
 mu_z = 0.1
-F_max = 15 # N
+F_max = mass*g*0.5 # N
 
 # ----------------------------------------------
 #             INITIAL CONDITIONS
 # ----------------------------------------------
 x0 = 0
-y0 = 0
-z0 = 0
+y0 = 10
+z0 = 5
 phi0 = 0 * np.pi/180
 theta0 = 0 * np.pi/180
-psi0 = 15 * np.pi/180
+psi0 = 0 * np.pi/180
 
 xdot0 = 0.0
 ydot0 = 0.0
@@ -56,6 +56,6 @@ psidot0 = 0.0 * np.pi/180
 #           SIMULATION PARAMETERS
 # ----------------------------------------------
 t_start = 0
-t_end = 100
-Ts = 0.01
+t_end = 50
+Ts = 0.001
 t_plot = .1

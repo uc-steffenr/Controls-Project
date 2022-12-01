@@ -34,6 +34,9 @@ class dataPlotter:
 
         self.timeHistory = []  # time
         
+        self.stateHistory = []
+        self.refHistory = []
+        self.controlHistory = []
 
         # self.Force_history = []  # control force
         
@@ -53,7 +56,7 @@ class dataPlotter:
             figList.append("fig"+str(figNum))
             
         self.num_cols = 1    # Number of subplot columns
-        
+        self.figList =[]
         
         
         for i in figList:
@@ -63,6 +66,7 @@ class dataPlotter:
                 else:
                     # print(j)
                     self.fig1, self.ax1 = plt.subplots(j, self.num_cols, sharex=True)
+                self.figList.append(self.fig1)
                     
             if i == "fig2":
                 if len(plotList) >=6:
@@ -70,13 +74,15 @@ class dataPlotter:
                 else:
                     # print(j)
                     self.fig2, self.ax2 = plt.subplots(j, self.num_cols, sharex=True)
-                    
+                self.figList.append(self.fig1)
+                
             if i == "fig3":
                 if len(plotList) >=9:
                     self.fig3, self.ax3 = plt.subplots(3, self.num_cols, sharex=True)
                 else:
                     # print(j)
                     self.fig3, self.ax3 = plt.subplots(j, self.num_cols, sharex=True)
+                self.figList.append(self.fig3)
                         
             if i == "fig4":
                 if len(plotList) >=12:
@@ -84,6 +90,7 @@ class dataPlotter:
                 else:
                     # print(j)
                     self.fig4, self.ax4 = plt.subplots(j, self.num_cols, sharex=True)
+                self.figList.append(self.fig4)
         
 
         # create a handle for every subplot.
@@ -187,6 +194,21 @@ class dataPlotter:
         
         self.timeHistory.append(t)  # time
         
+        self.stateHistory.append([states.item(0), states.item(1), states.item(2),
+                                  states.item(3), states.item(4), states.item(5),
+                                  states.item(6), states.item(7), states.item(8),
+                                  states.item(9), states.item(10), states.item(11)])
+        
+        self.refHistory.append([reference.item(0), reference.item(1), 
+                                reference.item(2),reference.item(3)])
+        
+        self.controlHistory.append([ctrl.item(0)])
+        
+        # self.stateHistory.append(list(states.flatten()))
+        # self.refHistory.append(reference.flatten())
+        # self.controlHistory.append(ctrl.flatten())
+        
+        
         # self.Force_history.append(ctrl)  # force on the base
         
         
@@ -202,6 +224,22 @@ class dataPlotter:
         # update the plots with associated histories
         for i in range(len(self.handleDict)):
             self.handle[i].update(self.timeHistory, self.handleDict[i])
+            
+    
+    def funcUpdate(self, t, reference, states, ctrl):
+        '''
+            FuncAnimation.
+        '''
+        
+        
+        # for j in range(t):
+        #     # update the plots with associated histories
+        #     quit
+        for i in range(len(self.handleDict)):
+            self.handle[i].update(self.timeHistory[t], self.handleDict[i][0][t])
+            
+            
+            
             
             
     def staticPlot(self, t, reference, states, ctrl):
