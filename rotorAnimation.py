@@ -19,11 +19,14 @@ class rotorAnimation:
             self.ax.set_ylim(P.y0-self.lim,P.y0+self.lim)
             self.ax.set_zlim(-P.z0-self.lim,-P.z0+self.lim)
         else:
-            self.lim = 1 # limit for plot size
+            self.lim = 5 # limit for plot size
             self.ax.set_xlim(P.x0-self.lim,P.x0+self.lim)
             self.ax.set_ylim(P.y0-self.lim,P.y0+self.lim)
             self.ax.set_zlim(-P.z0-self.lim,-P.z0+self.lim)
         self.handle = []
+        self.Xhandle = []
+        self.Yhandle = []
+        self.Zhandle = []
         self.circle_size = 50 # number of points for fan circle
 
         # for key,val in kwargs.item():
@@ -53,6 +56,12 @@ class rotorAnimation:
         self.drawArms(state)
         self.drawFans(state)
 
+        #drawing line that tracks vtol
+        self.Xhandle.append(x)
+        self.Yhandle.append(y)
+        self.Zhandle.append(z)
+        self.ax.plot3D(self.Xhandle,self.Yhandle,self.Zhandle, zorder=0)
+
         if self.flag_init:
             self.flag_init = False
         else:
@@ -62,7 +71,7 @@ class rotorAnimation:
                 self.ax.set_zlim(z-self.lim,z+self.lim)
         return
     
-    def updateAnim(self,i,states):
+    def updateAnim(self,i,states, time):
         x = states[i,0]
         y = states[i,1]
         z = states[i,2]
@@ -74,6 +83,14 @@ class rotorAnimation:
         self.drawCenter(state,face_color='r',edge_color='k',lw=1)
         self.drawArms(state)
         self.drawFans(state)
+
+        #drawing line that tracks vtol
+        self.Xhandle.append(x)
+        self.Yhandle.append(y)
+        self.Zhandle.append(z)
+        self.ax.plot3D(self.Xhandle,self.Yhandle,self.Zhandle, zorder=0)
+
+        self.ax.set_title(f'time {round(time[i],2)}')
 
         if self.flag_init:
             self.flag_init = False

@@ -80,10 +80,14 @@ else:
     kr_x = -1/(Cr_x @ np.linalg.inv(A_x-B_x@K_x)@B_x)
 print('K_x: ',K_x)
 print('kr_x: ',kr_x)
-#end x motion gains
-
+print()
 # x = [y,phi,v,p] (lmao wifi and vp)
 
+
+
+#######################################################
+#       FULL STATE FEEDBACK CONTROL: Y GAINS          #
+#######################################################
 A_y = np.array([[0,0,1,0],
                [0,0,0,1],
                [0,P.g,0,0],
@@ -110,11 +114,14 @@ else:
     K_y = cnt.acker(A_y,B_y,des_poles_y)
     Cr_y = np.array([[1,0,0,0]])
     kr_y = -1/(Cr_y @ np.linalg.inv(A_y - B_y @ K_y) @ B_y)
-
 print('K_y = ',K_y)
 print('kr_y = ',kr_y)
+print()
 
-#z motion gains
+
+#######################################################
+#       FULL STATE FEEDBACK CONTROL: Z GAINS          #
+#######################################################
 A_z = array([[0,1],
              [0,0]])
 
@@ -135,11 +142,16 @@ else:
     kr_z = -1/(Cr_z @ np.linalg.inv(A_z - B_z @ K_z) @ B_z)
 print('K_z: ',K_z)
 print('kr_z: ',kr_z)
+print()
 
 
 # x = [psi,r]
 # xdot = [r,rdot]
 
+
+#######################################################
+#       FULL STATE FEEDBACK CONTROL: psi GAINS          #
+#######################################################
 A_psi = np.array([[0,1],
                  [0,0]])
 
