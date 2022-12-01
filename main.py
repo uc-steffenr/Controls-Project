@@ -28,7 +28,7 @@ plotList = ["x", "y", "z", "psi", "theta"]
 
 
 rotor = rotorDynamics()
-ref = np.array([3,2,1, np.deg2rad(10)])
+ref = np.array([3,3,1, np.deg2rad(0)])
 data = dataPlotter(plotList)
 
 if ANIMATE:
@@ -87,3 +87,4 @@ if ANIMATE:
         
 else:
     data.staticPlot(t,ref,rotor.state,control)
+    plt.show(block=True)

@@ -8,7 +8,7 @@ class control_deez_nuts:
         self.flag = True
         
         self.K_x = P2.K_x
-        self.Kr_x = P2.kr_x
+        self.kr_x = P2.kr_x
         
         self.K_y = P2.K_y
         self.kr_y = P2.kr_y
@@ -29,7 +29,7 @@ class control_deez_nuts:
 
         p_x = array([[x, theta, xDot, thetaDot]]).T
         pe_x = array([[x_r, 0, 0, 0]]).T
-        tau_theta = -self.K_x @(p_x-pe_x) + self.Kr_x*(x_r-x)
+        tau_theta = -self.K_x @(p_x-pe_x) + self.kr_x*(x_r-x)
 
         z = states.item(2)
         zDot = states.item(8)
