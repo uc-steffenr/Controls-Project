@@ -9,7 +9,7 @@ import rotorParams as P
 class rotorAnimation:
     def __init__(self):
         self.flag_init = True # first time drawing figure
-        self.FOLLOW = False  #check if figure follows rotor
+        self.FOLLOW = True  #check if figure follows rotor
         self.fig = plt.figure()
         self.ax = self.fig.add_subplot(projection='3d')
         if self.FOLLOW:
@@ -88,7 +88,7 @@ class rotorAnimation:
         self.Xhandle.append(x)
         self.Yhandle.append(y)
         self.Zhandle.append(z)
-        self.ax.plot3D(self.Xhandle,self.Yhandle,self.Zhandle, zorder=0)
+        self.ax.plot3D(self.Xhandle,self.Yhandle,self.Zhandle, zorder=0, color='green')
 
         self.ax.set_title(f'time {round(time[i],2)}')
 

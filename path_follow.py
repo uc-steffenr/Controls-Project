@@ -15,6 +15,9 @@ class pathFollow:
         self.num_points = 20
         self.ref_list = figureEight(self.num_points)
         self.count = 0
+        self.Xflag = False
+        self.Yflag = False
+        self.Zflag = False
         self.current_ref = np.array([self.ref_list['x'][self.count], self.ref_list['y'][self.count], self.ref_list['z'][self.count], self.ref_list['psi'][self.count]])
         
 
@@ -30,12 +33,30 @@ class pathFollow:
         # print('x: ', round(x,2), round(xr,2))
         # print('y: ', round(y,2), round(yr,2))
         # print('z: ', round(z,2), round(zr,2))
+        # print()
 
+        if round(x,1) == round(xr,1):
+            self.Xflag = True
+        if round(z,1) == round(zr,1):
+            self.Zflag = True
+        if round(y,1) == round(yr,1):
+            self.Yflag = True
 
+        
 
-        if round(x,1) == round(xr,1) and round(y,1) == round(yr,1) and round(z,1) == round(zr,1):
+        if self.Xflag and self.Yflag and self.Zflag:
             self.count += 1
             if self.num_points == self.count:
                 self.count = 0
             self.current_ref = np.array([self.ref_list['x'][self.count], self.ref_list['y'][self.count], self.ref_list['z'][self.count], self.ref_list['psi'][self.count]])
+            self.Xflag = False
+            self.Yflag = False
+            self.Zflag = False
         return self.current_ref
+
+        # if round(x,1) == round(xr,1) and round(y,1) == round(yr,1) and round(z,1) == round(zr,1):
+        #     self.count += 1
+        #     if self.num_points == self.count:
+        #         self.count = 0
+        #     self.current_ref = np.array([self.ref_list['x'][self.count], self.ref_list['y'][self.count], self.ref_list['z'][self.count], self.ref_list['psi'][self.count]])
+        # return self.current_ref
