@@ -48,16 +48,9 @@ psi0 = 0 * np.pi/180
 xdot0 = 0.0
 ydot0 = 0.0
 zdot0 = 0.0
-<<<<<<< HEAD
-phidot0 = 0.0
-thetadot0 = 0.0
-psidot0 = 0.0
-state0 = np.array([[x0,y0,z0,phi0,theta0,psi0,xdot0,ydot0,zdot0,phidot0,thetadot0,psidot0]]).T
-=======
 phidot0 = 0.0 * np.pi/180
 thetadot0 = 0.0 * np.pi/180
 psidot0 = 0.0 * np.pi/180
->>>>>>> c665eabe54a326ed05fedc80162643b44460a019
 
 # ----------------------------------------------
 #           SIMULATION PARAMETERS

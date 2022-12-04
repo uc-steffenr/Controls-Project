@@ -46,24 +46,11 @@ class rotorAnimation:
         #         self.circle_size=val
     
     from _drawRotor import drawCenter, drawArms, drawFans
-<<<<<<< HEAD
-    
-    def update(self,i,states):
-        x = states[i, 0]
-        y = states[i, 1]
-        z = states[i, 2]
-        phi = states[i, 3]
-        theta = states[i, 4]
-        psi = states[i, 5]
-        state = np.array([[x, y, z, phi, theta, psi]]).T
-
-=======
 
     def update(self,state):
         x = state.item(0)
         y = state.item(1)
         z = state.item(2)
->>>>>>> c665eabe54a326ed05fedc80162643b44460a019
 
         self.drawCenter(state,face_color='r',edge_color='k',lw=1)
         self.drawArms(state)
