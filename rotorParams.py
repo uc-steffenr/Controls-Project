@@ -3,21 +3,37 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # ----------------------------------------------
-#         MASSES AND MOMENTS OF INERTIA
-# ----------------------------------------------
-mc = 0.5 # kg
-mf = 0.2 # kg
-Jc = 2
-Jf = 2 # these are placeholders for real numbers
-
-# ----------------------------------------------
 #             DIMENSIONS OF ROTOR
 # ----------------------------------------------
+
 sc = 0.05 # m -> length of side of square
 d = 0.04 # m -> length of rod connecting fan to center
 rf = 0.03 # m -> radius of fan
 h = 0.02 # m -> thickness of center
 leg_l = 0.005 # m -> length of landing legs
+
+# ----------------------------------------------
+#         MASSES AND MOMENTS OF INERTIA
+# ----------------------------------------------
+mc = 0.5 # kg
+mf = 0.2 # kg
+mass = mc+mf*4
+
+# from https://en.wikipedia.org/wiki/List_of_moments_of_inertia
+# and https://scholarsarchive.byu.edu/cgi/viewcontent.cgi?article=2324&context=facpub
+Jx = (1/12)*mc*(sc**2 + h**2) + 2*d**2*mf
+Jy = (1/12)*mc*(sc**2 + h**2) + 2*d**2*mf
+Jz = (1/12)*mc*2*sc**2 + 4*d**2*mf
+# essentially just sum of rectangular prism J and off-axis point mass J
+
+# ----------------------------------------------
+#               OTHER PARAMETERS
+# ----------------------------------------------
+g = 9.81
+mu_x = 0.1
+mu_y = 0.1
+mu_z = 0.1
+F_max = mass*g*0.5 # N
 
 # ----------------------------------------------
 #             INITIAL CONDITIONS
@@ -32,15 +48,21 @@ psi0 = 0 * np.pi/180
 xdot0 = 0.0
 ydot0 = 0.0
 zdot0 = 0.0
+<<<<<<< HEAD
 phidot0 = 0.0
 thetadot0 = 0.0
 psidot0 = 0.0
 state0 = np.array([[x0,y0,z0,phi0,theta0,psi0,xdot0,ydot0,zdot0,phidot0,thetadot0,psidot0]]).T
+=======
+phidot0 = 0.0 * np.pi/180
+thetadot0 = 0.0 * np.pi/180
+psidot0 = 0.0 * np.pi/180
+>>>>>>> c665eabe54a326ed05fedc80162643b44460a019
 
 # ----------------------------------------------
 #           SIMULATION PARAMETERS
 # ----------------------------------------------
 t_start = 0
-t_end = 50
-Ts = 0.001
-t_plot = 0.1
+t_end = 30
+Ts = 0.033
+t_plot = 0.033

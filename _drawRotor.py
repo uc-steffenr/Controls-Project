@@ -7,32 +7,38 @@ from numpy import sin as s
 from numpy import cos as c
 import rotorParams as P
 
+# NOTE: DOWN IS POSITIVE
+
+# rotation matrix sign changes come from 'Quadrotor Dynamics and Control Rev 0.1'
 def rotYaw(a):
     R_ = np.array([
-        [c(a), -s(a), 0],
-        [s(a), c(a), 0],
+        [c(a), s(a), 0], # changing the sin from - to +
+        [-s(a), c(a), 0], # changing the sin from + to -
         [0, 0, 1]
     ])
     return R_
 
 def rotPitch(b):
     R_ = np.array([
-        [c(b), 0, s(b)],
+        [c(b), 0, -s(b)], # changing the sin from + to -
         [0, 1, 0],
-        [-s(b), 0, c(b)]
+        [s(b), 0, c(b)] # changing the sin from - to +
     ])
     return R_
 
 def rotRoll(g):
     R_ = np.array([
         [1, 0, 0],
-        [0, c(g), -s(g)],
-        [0, s(g), c(g)]
+        [0, c(g), s(g)], # changing the sin from - to +
+        [0, -s(g), c(g)] # changing the sin from + to -
     ])
     return R_
 
+# changed rotation matrix multiplication order based on reference
+# mentioned above
 def R(a,b,g):
-    r = rotYaw(a) @ rotPitch(b) @ rotRoll(g)
+    # r = rotYaw(a) @ rotPitch(b) @ rotRoll(g)
+    r = rotRoll(g) @ rotPitch(b) @ rotYaw(a)
     return r
 
 def drawCenter(self,state,**kwargs):
@@ -61,28 +67,28 @@ def drawCenter(self,state,**kwargs):
 
     # top and bottom faces (z constant)
     self.face1 = np.array([
-        [x,0,z],
-        [0,x,z],
-        [-x,0,z],
-        [0,-x,z]
+        [x,x,z],
+        [-x,x,z],
+        [-x,-x,z],
+        [x,-x,z]
     ])
     self.face2 = np.copy(self.face1); self.face2[:,2] *= -1
 
     # first set of lateral faces
     self.face3 = np.array([
-        [x,0,z],
-        [0,x,z],
-        [0,x,-z],
-        [x,0,-z]
+        [x,x,z],
+        [-x,x,z],
+        [-x,x,-z],
+        [x,x,-z]
     ])
     self.face4 = np.copy(self.face3); self.face4[:,0:1] *= -1
 
     # second set of lateral faces
     self.face5 = np.array([
-        [x,0,z],
-        [0,-x,z],
-        [0,-x,-z],
-        [x,0,-z]
+        [x,x,z],
+        [x,-x,z],
+        [x,-x,-z],
+        [x,x,-z]
     ])
     self.face6 = np.copy(self.face5); self.face6[:,0:1] *= -1
 

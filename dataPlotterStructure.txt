@@ -1,0 +1,20 @@
+Parameters
+
+Dictionary of States to Plot
+stored in List: plotList
+
+"x"
+"y"
+"z"
+
+"phi"
+"theta"
+"psi"
+
+"u"
+"v"
+"w"
+
+"p"
+"q"
+"r"
