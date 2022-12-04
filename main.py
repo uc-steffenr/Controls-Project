@@ -21,19 +21,16 @@ ANIMATE = True
 plotList = ["x", "y", "z", "phi", "theta", "psi"]
 
 
-
 rotor = rotorDynamics()
 path = pathFollow()
 ref = path.current_ref
 #ref = np.array([3,3,1, np.deg2rad(15)])
 data = dataPlotter(plotList)
-#data = 'off'
 
 if ANIMATE:
     animy = rotorAnimation()
 control = np.ones(1)
 cont = rotorController()
-
 
 t = P.t_start
 if FUNCANIMATE:
@@ -48,11 +45,10 @@ while t < P.t_end:
 
     # inner loop... calculate new states between plot timesteps
     while t < t_next_plot:
-        
         Ftot,tau_phi,tau_theta,tau_psi = cont.update(ref[0],ref[1],ref[2],ref[3],rotor.state)
         F = np.array([[Ftot],[tau_phi],[tau_theta],[tau_psi]])
         x = rotor.state
-        ref = path.update(x)
+        ref = path.update(x,0.01)
         y = rotor.update(F)
         t = t + P.Ts
     
@@ -68,7 +64,6 @@ while t < P.t_end:
             plt.pause(0.0001)
             
     else:
-        # print(t)
         data.storeHistory(t,ref,x,control)
 
 if ANIMATE:
