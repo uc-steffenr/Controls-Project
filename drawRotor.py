@@ -119,12 +119,12 @@ def drawCenter(self,state,**kwargs):
         f5 = Poly3DCollection(self.face5,color=face_color,edgecolor=edge_color,lw=lw)
         f6 = Poly3DCollection(self.face6,color=face_color,edgecolor=edge_color,lw=lw)
 
-        self.ax.add_collection3d(f1)
-        self.ax.add_collection3d(f2)
-        self.ax.add_collection3d(f3)
-        self.ax.add_collection3d(f4)
-        self.ax.add_collection3d(f5)
-        self.ax.add_collection3d(f6)
+        self.axF.add_collection3d(f1)
+        self.axF.add_collection3d(f2)
+        self.axF.add_collection3d(f3)
+        self.axF.add_collection3d(f4)
+        self.axF.add_collection3d(f5)
+        self.axF.add_collection3d(f6)
 
         self.handle.append(f1)
         self.handle.append(f2)
@@ -189,10 +189,10 @@ def drawArms(self,state):
     arm4z = [verts[6,2],verts[7,2]]
     
     if self.flag_init:
-        arm1, = self.ax.plot3D(arm1x,arm1y,arm1z,'-o',color='k',lw=lw)
-        arm2, = self.ax.plot3D(arm2x,arm2y,arm2z,'-o',color='k',lw=lw)
-        arm3, = self.ax.plot3D(arm3x,arm3y,arm3z,'-o',color='k',lw=lw)
-        arm4, = self.ax.plot3D(arm4x,arm4y,arm4z,'-o',color='k',lw=lw)
+        arm1, = self.axF.plot3D(arm1x,arm1y,arm1z,'-o',color='k',lw=lw)
+        arm2, = self.axF.plot3D(arm2x,arm2y,arm2z,'-o',color='k',lw=lw)
+        arm3, = self.axF.plot3D(arm3x,arm3y,arm3z,'-o',color='k',lw=lw)
+        arm4, = self.axF.plot3D(arm4x,arm4y,arm4z,'-o',color='k',lw=lw)
 
         self.handle.append(arm1)
         self.handle.append(arm2)
@@ -244,10 +244,10 @@ def drawFans(self,state):
         fan3poly = Poly3DCollection(fan3,color='b',lw=2,alpha=0.5,edgecolor='k')
         fan4poly = Poly3DCollection(fan4,color='b',lw=2,alpha=0.5,edgecolor='k')
 
-        self.ax.add_collection3d(fan1poly)
-        self.ax.add_collection3d(fan2poly)
-        self.ax.add_collection3d(fan3poly)
-        self.ax.add_collection3d(fan4poly)
+        self.axF.add_collection3d(fan1poly)
+        self.axF.add_collection3d(fan2poly)
+        self.axF.add_collection3d(fan3poly)
+        self.axF.add_collection3d(fan4poly)
 
         self.handle.append(fan1poly)
         self.handle.append(fan2poly)
@@ -259,3 +259,50 @@ def drawFans(self,state):
         self.handle[11].set_verts(fan2)
         self.handle[12].set_verts(fan3)
         self.handle[13].set_verts(fan4)
+    
+def drawSimpleRotor(self,state):
+    px = state.item(0)
+    py = state.item(1)
+    pz = state.item(2)
+    phi = state.item(3)
+    theta = state.item(4)
+    psi = state.item(5)
+
+    x = P.d*12 # scalars are to increase visibility
+    y = P.d*12
+    z = 0
+
+    pos = [0,0,0]
+
+    armF = np.array([pos,[x,0,z]])
+    armR = np.array([pos,[0,y,z]])
+    armB = np.array([pos,[0,-y,z]])
+    armL = np.array([pos,[-x,0,z]])
+
+    T = np.array([px,py,pz])
+    T = np.tile(T,(armF.shape[0],1))
+
+    armF = armF @ R(psi,theta,phi) + T
+    armR = armR @ R(psi,theta,phi) + T
+    armB = armB @ R(psi,theta,phi) + T
+    armL = armL @ R(psi,theta,phi) + T
+
+    if self.flag_init:
+        arm1, = self.axZ.plot3D(armF[:,0],armF[:,1],armF[:,2],'-',color='g')
+        arm2, = self.axZ.plot3D(armR[:,0],armR[:,1],armR[:,2],'-',color='b')
+        arm3, = self.axZ.plot3D(armB[:,0],armB[:,1],armB[:,2],'-',color='b')
+        arm4, = self.axZ.plot3D(armL[:,0],armL[:,1],armL[:,2],'-',color='b')
+        cent, = self.axZ.plot3D(px,py,pz,'D',color='r',lw=0.5)
+
+        self.zoomHandle.append(arm1)
+        self.zoomHandle.append(arm2)
+        self.zoomHandle.append(arm3)
+        self.zoomHandle.append(arm4)
+        self.zoomHandle.append(cent)
+
+    else:
+        self.zoomHandle[0].set_data_3d((armF[:,0],armF[:,1],armF[:,2]))
+        self.zoomHandle[1].set_data_3d((armR[:,0],armR[:,1],armR[:,2]))
+        self.zoomHandle[2].set_data_3d((armB[:,0],armB[:,1],armB[:,2]))
+        self.zoomHandle[3].set_data_3d((armL[:,0],armL[:,1],armL[:,2]))
+        self.zoomHandle[4].set_data_3d((px,py,pz))

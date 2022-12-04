@@ -11,11 +11,22 @@ from rotorDynamics import rotorDynamics
 from rotorController import rotorController
 from path_follow import pathFollow
 
+# General todo list:
+# - TODO fix psi tracking
+# - TODO add wind
+# - TODO add integrator to FSFB
+#   - made kwarg in order to use same controller but with 
+#     an integrator option
+# - TODO calculate individual fan forces and/or angular rates 
+#        and saturate them
+# - TODO vary physical parameters in dynamics (using like the
+#         alpha terms from the homeworks)
+
 
 #################################################
 #              SIMULATION PARAMETERS            #
 #################################################
-FUNCANIMATE = False 
+FUNCANIMATE = True 
 ANIMATE = True
 # plotList = ["x", "y", "z", "u", "v", "w"]
 plotList = ["x", "y", "z", "phi", "theta", "psi"]
@@ -28,7 +39,8 @@ ref = path.current_ref
 data = dataPlotter(plotList)
 
 if ANIMATE:
-    animy = rotorAnimation()
+    # options are 'follow', 'zoomed out', or 'both'
+    animy = rotorAnimation('both')
 control = np.ones(1)
 cont = rotorController()
 
@@ -74,7 +86,7 @@ if ANIMATE:
         ani = animation.FuncAnimation(animy.fig, animy.updateAnim, int(i), fargs=(x_history,time_history,),  interval=1, blit=False)
         print('saving...')
         data.staticPlot(t,ref,x,control)
-        #plt.show(block=True)
+        plt.show(block=True)
         ani.save("movie.gif", writer=animation.PillowWriter(fps=30))
         print('done')
     else:
