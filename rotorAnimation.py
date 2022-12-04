@@ -100,4 +100,9 @@ class rotorAnimation:
                 self.ax.set_ylim(y-self.lim,y+self.lim)
                 self.ax.set_zlim(z-self.lim,z+self.lim)
         return
-    
+# state = np.array([[0,0,0,0,0,0,0,0,0,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,1]])
+# animy = rotorAnimation()
+# animy.update(0, state)
+# plt.pause(2)
+# animy.update(1, state)
+# plt.pause(99)
