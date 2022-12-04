@@ -20,16 +20,21 @@ class rotorAnimation:
         self.FOLLOW = True  #check if figure follows rotor
         self.fig = plt.figure()
         self.ax = self.fig.add_subplot(projection='3d')
+        # self.ax.invert_zaxis()
         if self.FOLLOW:
             self.lim = 0.3 # limit for plot size
             self.ax.set_xlim(P.x0-self.lim,P.x0+self.lim)
             self.ax.set_ylim(P.y0-self.lim,P.y0+self.lim)
-            self.ax.set_zlim(-P.z0-self.lim,-P.z0+self.lim)
+            self.ax.set_zlim(-P.z0+self.lim,-P.z0-self.lim)
         else:
             self.lim = 5 # limit for plot size
             self.ax.set_xlim(P.x0-self.lim,P.x0+self.lim)
             self.ax.set_ylim(P.y0-self.lim,P.y0+self.lim)
-            self.ax.set_zlim(-P.z0-self.lim,-P.z0+self.lim)
+            self.ax.set_zlim(-P.z0+self.lim,-P.z0-self.lim)
+        
+        self.ax.set_xlabel('North (m)')
+        self.ax.set_ylabel('East (m)')
+        self.ax.set_zlabel('Down (m)')
         self.handle = []
         self.Xhandle = []
         self.Yhandle = []
@@ -75,7 +80,7 @@ class rotorAnimation:
             if self.FOLLOW:
                 self.ax.set_xlim(x-self.lim,x+self.lim)
                 self.ax.set_ylim(y-self.lim,y+self.lim)
-                self.ax.set_zlim(z-self.lim,z+self.lim)
+                self.ax.set_zlim(z+self.lim,z-self.lim)
         return
     
     def updateAnim(self,i,states, time):
@@ -105,5 +110,5 @@ class rotorAnimation:
             if self.FOLLOW:
                 self.ax.set_xlim(x-self.lim,x+self.lim)
                 self.ax.set_ylim(y-self.lim,y+self.lim)
-                self.ax.set_zlim(z-self.lim,z+self.lim)
+                self.ax.set_zlim(z+self.lim,z-self.lim)
         return
