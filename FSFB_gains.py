@@ -5,24 +5,12 @@ import rotorParams as P
 import control as cnt
 from numpy import array
 
-# Doing gain calculations
-# zeta_O = 0.707
-# tr_O = 1.5
-# wn_O = 0.5*(np.pi/(tr_O*np.sqrt(1-zeta_O**2)))
-
-# zeta_I = 0.707
-# tr_I = 0.5
-# wn_I = 0.5*(np.pi/(tr_I*np.sqrt(1-zeta_I**2)))
-
 M_inner = 8
 
 tr_x = 2
 Mp_x = 0.04
 zeta_x = np.sqrt((np.log(Mp_x)**2)/(np.pi**2 + np.log(Mp_x)**2))
 wn_x = 0.5*(np.pi/(tr_x*np.sqrt(1-zeta_x**2)))
-
-# print(zeta_x)
-# print(wn_x)
 
 tr_th = tr_x / M_inner
 zeta_th = zeta_x
@@ -64,11 +52,9 @@ B_x = np.array([[0],
 C_x = np.array([[1,0,0,0],
                 [0,1,0,0]])
 
-# des_char_x = np.convolve([1, 2*zeta_I*wn_I, wn_I**2],
-#                          [1, 2*zeta_O*wn_O, wn_O**2])
+
 des_char_x = np.convolve([1, 2*zeta_th*wn_th, wn_th**2],
                          [1, 2*zeta_x*wn_x, wn_x**2])
-# des_char_x = np.array([1,2*zeta_x*wn_x,wn_x**2])
 
 des_poles_x = np.roots(des_char_x)
 
@@ -81,8 +67,6 @@ else:
 print('K_x: ',K_x)
 print('kr_x: ',kr_x)
 print()
-# x = [y,phi,v,p] (lmao wifi and vp)
-
 
 
 #######################################################
@@ -101,11 +85,8 @@ B_y = np.array([[0],
 C_y = np.array([[1,0,0,0],
                [0,1,0,0]])
 
-# des_char_poly_y = np.convolve([1,2*zeta_I*wn_I,wn_I**2],
-#                               [1,2*zeta_O*wn_O,wn_O**2])
 des_char_poly_y = np.convolve([1,2*zeta_phi*wn_phi,wn_phi**2],
                               [1,2*zeta_y*wn_y,wn_y**2])
-# des_char_poly_y = np.array([1,2*zeta_y*wn_y,wn_y**2])
 des_poles_y = np.roots(des_char_poly_y)
 
 if np.linalg.matrix_rank(cnt.ctrb(A_y,B_y)) != 4:
@@ -124,13 +105,10 @@ print()
 #######################################################
 A_z = array([[0,1],
              [0,0]])
-
 B_z = array([[0],
              [1/P.mass]])
-
 C_z = array([[1,0]])
 
-# des_poles_z = np.roots([1,2*zeta_O*wn_O,wn_O**2])
 des_poles_z = np.roots([1,2*zeta_z*wn_z,wn_z**2])
 
 
@@ -145,12 +123,8 @@ print('kr_z: ',kr_z)
 print()
 
 
-# x = [psi,r]
-# xdot = [r,rdot]
-
-
 #######################################################
-#       FULL STATE FEEDBACK CONTROL: psi GAINS          #
+#       FULL STATE FEEDBACK CONTROL: PSI GAINS        #
 #######################################################
 A_psi = np.array([[0,1],
                  [0,0]])
@@ -160,11 +134,7 @@ B_psi = np.array([[0],
 
 C_psi = np.array([[1,0]])
 
-# des_char_poly_x = np.convolve([1,2*zeta_th*wn_th,wn_th**2],
-#                               [1,2*zeta_x*wn_x,wn_x**2])
-
 #check inner/outer in case of future bugs ( First iteration done with  outer)
-# des_poles_psi = np.roots([1,2*zeta_O*wn_O,wn_O**2])
 des_poles_psi = np.roots([1,2*zeta_psi*wn_psi,wn_psi**2])
 
 if np.linalg.matrix_rank(cnt.ctrb(A_psi,B_psi)) != 2:
