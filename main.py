@@ -8,7 +8,7 @@ import numpy as np
 from rotorAnimation import rotorAnimation
 from dataPlotter import dataPlotter
 from rotorDynamics import rotorDynamics
-from nuts_phil import control_deez_nuts
+from FSFB_controller import FSFB
 from path_follow import pathFollow
 
 
@@ -38,7 +38,7 @@ data = dataPlotter(plotList)
 if ANIMATE:
     animy = rotorAnimation()
 control = np.ones(1)
-cont = control_deez_nuts()
+cont = FSFB()
 
 
 t = P.t_start

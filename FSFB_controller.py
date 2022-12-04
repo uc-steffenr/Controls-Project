@@ -1,9 +1,9 @@
 import numpy as np
 import rotorParams as P
-import deez_phil as P2
+import FSFB_gains as P2
 from numpy import array
 
-class control_deez_nuts:
+class FSFB:
     def __init__(self):
         self.flag = True
         
