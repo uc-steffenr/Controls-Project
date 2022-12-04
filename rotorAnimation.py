@@ -6,6 +6,14 @@ import numpy as np
 # from numpy import sin,cos as s,c
 import rotorParams as P
 
+# TODO add option for zoomed out view
+# TODO change animation for zoomed out view
+
+# variables to change
+# - FOLLOW
+# - plot size (lim)
+# - 
+
 class rotorAnimation:
     def __init__(self):
         self.flag_init = True # first time drawing figure
@@ -14,7 +22,6 @@ class rotorAnimation:
         self.ax = self.fig.add_subplot(projection='3d')
         if self.FOLLOW:
             self.lim = 0.3 # limit for plot size
-            # NOTE MAKE SURE TO UPDATE LIMITS EVERY TIME AROUND
             self.ax.set_xlim(P.x0-self.lim,P.x0+self.lim)
             self.ax.set_ylim(P.y0-self.lim,P.y0+self.lim)
             self.ax.set_zlim(-P.z0-self.lim,-P.z0+self.lim)
@@ -100,9 +107,3 @@ class rotorAnimation:
                 self.ax.set_ylim(y-self.lim,y+self.lim)
                 self.ax.set_zlim(z-self.lim,z+self.lim)
         return
-# state = np.array([[0,0,0,0,0,0,0,0,0,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,1]])
-# animy = rotorAnimation()
-# animy.update(0, state)
-# plt.pause(2)
-# animy.update(1, state)
-# plt.pause(99)
