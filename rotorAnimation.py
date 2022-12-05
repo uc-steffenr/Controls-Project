@@ -37,7 +37,7 @@ class rotorAnimation:
             self.axF.set_ylabel('East (m)')
             self.axF.set_zlabel('Down (m)')
         elif self.type == 'zoomed out':
-            self.limZ = 5 # limit for plot size
+            self.limZ = 3 # limit for plot size
             self.axZ = self.fig.add_subplot(111,projection='3d')
             self.axZ.set_xlim(P.x0-self.limZ,P.x0+self.limZ)
             self.axZ.set_ylim(P.y0-self.limZ,P.y0+self.limZ)
@@ -51,7 +51,7 @@ class rotorAnimation:
             self.axZ = self.fig.add_subplot(122,projection='3d')
 
             self.lim = 0.3
-            self.limZ = 5
+            self.limZ = 3
 
             self.axF.set_xlim(P.x0-self.lim,P.x0+self.lim)
             self.axF.set_ylim(P.y0-self.lim,P.y0+self.lim)
@@ -96,9 +96,9 @@ class rotorAnimation:
         self.Yhandle.append(y)
         self.Zhandle.append(z)
         if self.type == 'follow' or self.type == 'both':
-            self.axF.plot3D(self.Xhandle,self.Yhandle,self.Zhandle, zorder=0)
+            self.axF.plot3D(self.Xhandle,self.Yhandle,self.Zhandle, color='c', zorder=0)
         if self.type == 'zoomed out' or self.type == 'both':
-            self.axZ.plot3D(self.Xhandle,self.Yhandle,self.Zhandle, zorder=0)
+            self.axZ.plot3D(self.Xhandle,self.Yhandle,self.Zhandle, color='c', zorder=0)
 
         if self.flag_init:
             self.flag_init = False
@@ -130,10 +130,10 @@ class rotorAnimation:
         self.Yhandle.append(y)
         self.Zhandle.append(z)
         if self.type == 'follow' or self.type == 'both':
-            self.axF.plot3D(self.Xhandle,self.Yhandle,self.Zhandle, zorder=0)
+            self.axF.plot3D(self.Xhandle,self.Yhandle,self.Zhandle, color='c', zorder=0)
             self.axF.set_title(f'time {round(time[i],2)}')
         if self.type == 'zoomed out' or self.type == 'both':
-            self.axZ.plot3D(self.Xhandle,self.Yhandle,self.Zhandle, zorder=0)
+            self.axZ.plot3D(self.Xhandle,self.Yhandle,self.Zhandle, color='c', zorder=0)
             self.axZ.set_title(f'time {round(time[i],2)}')
 
         if self.flag_init:
