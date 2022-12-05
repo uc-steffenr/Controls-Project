@@ -13,7 +13,8 @@ def figureEight(num_points=20, width=1, height=1):
 
 class pathFollow:
     def __init__(self):
-        self.num_points = 20
+        # self.num_points = 20
+        self.num_points = int((P.t_end - P.t_start)/P.Ts)
         self.ref_list = figureEight(self.num_points)
         self.count = 0
         self.Xflag = False
@@ -66,3 +67,8 @@ class pathFollow:
             self.Yflag = False
             self.Zflag = False
         return self.current_ref
+    
+    def update_Nate(self):
+        if self.count != self.num_points-1:
+            self.count += 1
+        return np.array([self.ref_list['x'][self.count], self.ref_list['y'][self.count], self.ref_list['z'][self.count], self.ref_list['psi'][self.count]])
