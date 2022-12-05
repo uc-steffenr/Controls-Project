@@ -6,11 +6,15 @@ import rotorParams as P
 from random import gauss
 
 class rotorDynamics:
-    def __init__(self, alpha=0.0):
+    def __init__(self, alpha=0.0,**kwargs):
         self.state = np.array([P.x0,P.y0,-P.z0,P.phi0,P.theta0,-P.psi0,P.xdot0,P.ydot0,-P.zdot0,P.phidot0,P.thetadot0,-P.psidot0])
         self.state = np.expand_dims(self.state,1)
         self.Ts = P.Ts
-        return
+        self.wind = False
+        
+        for key,val in kwargs.items():
+            if key == 'wind':
+                self.wind = val
     
     from rotorForcesandMoments import ForcesAndMoments
 
@@ -35,12 +39,15 @@ class rotorDynamics:
         q = state.item(10)
         r = state.item(11)
 
-        mu = 0
-        sigma = 1
-        # wind force
-        fwx = gauss(mu,sigma)
-        fwy = gauss(mu,sigma)
-        fwz = gauss(mu,sigma)
+        if self.wind:
+            mu = 0
+            sigma = 1
+            # wind force
+            fwx = gauss(mu,sigma)
+            fwy = gauss(mu,sigma)
+            fwz = gauss(mu,sigma)
+        else:
+            fwx = fwy = fwz = 0
 
         fx = Ftot * (-c(phi)*s(theta)*c(psi) - s(phi)*s(psi)) - P.mass*P.mu_x*u # -> air disturbance term
         fy = Ftot * (-c(phi)*s(theta)*s(psi) + s(phi)*c(psi)) - P.mass*P.mu_y*v

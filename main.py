@@ -13,23 +13,22 @@ from path_follow import pathFollow
 
 # General todo list:
 # - TODO fix psi tracking
-# - TODO add wind
 # - TODO calculate individual fan forces and/or angular rates 
 #        and saturate them
 # - TODO vary physical parameters in dynamics (using like the
-#         alpha terms from the homeworks)
+#         alpha terms from the homeworks)-- less important
 
 
 #################################################
 #              SIMULATION PARAMETERS            #
 #################################################
-FUNCANIMATE = False 
+FUNCANIMATE = False
 ANIMATE = True
 # plotList = ["x", "y", "z", "u", "v", "w"]
 plotList = ["x", "y", "z", "phi", "theta", "psi"]
 
 
-rotor = rotorDynamics()
+rotor = rotorDynamics(wind=True)
 path = pathFollow()
 ref = path.current_ref
 #ref = np.array([3,3,1, np.deg2rad(15)])
