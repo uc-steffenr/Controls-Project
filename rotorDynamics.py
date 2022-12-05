@@ -3,6 +3,7 @@ from numpy import sin as s
 from numpy import cos as c
 from numpy import tan as t
 import rotorParams as P
+from random import gauss
 
 class rotorDynamics:
     def __init__(self, alpha=0.0):
@@ -34,15 +35,22 @@ class rotorDynamics:
         q = state.item(10)
         r = state.item(11)
 
+        mu = 0
+        sigma = 1
+        # wind force
+        fwx = gauss(mu,sigma)
+        fwy = gauss(mu,sigma)
+        fwz = gauss(mu,sigma)
+
         fx = Ftot * (-c(phi)*s(theta)*c(psi) - s(phi)*s(psi)) - P.mass*P.mu_x*u # -> air disturbance term
         fy = Ftot * (-c(phi)*s(theta)*s(psi) + s(phi)*c(psi)) - P.mass*P.mu_y*v
         fz = P.mass*P.g - Ftot*c(phi)*c(theta) - P.mass*P.mu_z*w
 
         #fx,fy,fz,tau_phi,tau_theta,tau_psi = self.ForcesAndMoments(state,F)
 
-        pxddot = fx/P.mass
-        pyddot = fy/P.mass
-        pzddot = fz/P.mass
+        pxddot = (fx+fwx)/P.mass
+        pyddot = (fy+fwy)/P.mass
+        pzddot = (fz-fwz)/P.mass
         phiddot = ((P.Jy-P.Jz)/P.Jx)*q*r + tau_phi/P.Jx
         thetaddot = ((P.Jz-P.Jx)/P.Jy)*p*r + tau_theta/P.Jy
         psiddot = ((P.Jx-P.Jy)/P.Jz)*p*q + tau_psi/P.Jz

@@ -24,7 +24,7 @@ from path_follow import pathFollow
 #              SIMULATION PARAMETERS            #
 #################################################
 FUNCANIMATE = False 
-ANIMATE = False
+ANIMATE = True
 # plotList = ["x", "y", "z", "u", "v", "w"]
 plotList = ["x", "y", "z", "phi", "theta", "psi"]
 
