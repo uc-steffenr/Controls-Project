@@ -42,7 +42,7 @@ if ANIMATE:
     # options are 'follow', 'zoomed out', or 'both'
     animy = rotorAnimation('both')
 control = np.ones(1)
-cont = rotorController()
+cont = rotorController(type='FSFBI')
 
 t = P.t_start
 if FUNCANIMATE:
@@ -60,7 +60,7 @@ while t < P.t_end:
         Ftot,tau_phi,tau_theta,tau_psi = cont.update(ref[0],ref[1],ref[2],ref[3],rotor.state)
         F = np.array([[Ftot],[tau_phi],[tau_theta],[tau_psi]])
         x = rotor.state
-        ref = path.update(x,0.01)
+        ref = path.update(x,0.1)
         y = rotor.update(F)
         t = t + P.Ts
     
@@ -86,8 +86,8 @@ if ANIMATE:
         ani = animation.FuncAnimation(animy.fig, animy.updateAnim, int(i), fargs=(x_history,time_history,),  interval=1, blit=False)
         print('saving...')
         data.staticPlot(t,ref,x,control)
-        plt.show(block=True)
-        ani.save("movie.gif", writer=animation.PillowWriter(fps=30))
+        # plt.show(block=True)
+        ani.save("FSFBI_Attempt.gif", writer=animation.PillowWriter(fps=30))
         print('done')
     else:
         print('Press key to close')

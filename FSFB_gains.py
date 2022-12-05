@@ -5,35 +5,39 @@ import rotorParams as P
 import control as cnt
 from numpy import array
 
+# methods to calculate damping coefficient and natural frequency
+zeta = lambda Mp: np.sqrt((np.log(Mp)**2)/(np.pi**2 + np.log(Mp)**2))
+wn = lambda tr,zeta: 0.5*(np.pi/(tr*np.sqrt(1-zeta**2)))
+
 M_inner = 8
 
 tr_x = 2
 Mp_x = 0.04
-zeta_x = np.sqrt((np.log(Mp_x)**2)/(np.pi**2 + np.log(Mp_x)**2))
-wn_x = 0.5*(np.pi/(tr_x*np.sqrt(1-zeta_x**2)))
+zeta_x = zeta(Mp_x)
+wn_x = wn(tr_x,zeta_x)
 
 tr_th = tr_x / M_inner
 zeta_th = zeta_x
-wn_th = 0.5*(np.pi/(tr_th*np.sqrt(1-zeta_th**2)))
+wn_th = wn(tr_th,zeta_th)
 
 tr_y = 2
 Mp_y = 0.04
-zeta_y = np.sqrt((np.log(Mp_y)**2)/(np.pi**2 + np.log(Mp_y)**2))
-wn_y = 0.5*(np.pi/(tr_y*np.sqrt(1-zeta_y**2)))
+zeta_y = zeta(Mp_y)
+wn_y = wn(tr_y,zeta_y)
 
 tr_phi = tr_y / M_inner
 zeta_phi = zeta_y
-wn_phi = 0.5*(np.pi/(tr_phi*np.sqrt(1-zeta_phi**2)))
+wn_phi = wn(tr_phi,zeta_phi)
 
 tr_z = 2
 Mp_z = 0.052
-zeta_z = np.sqrt((np.log(Mp_z)**2)/(np.pi**2 + np.log(Mp_z)**2))
-wn_z = 0.5*(np.pi/(tr_z*np.sqrt(1-zeta_z**2)))
+zeta_z = zeta(tr_z)
+wn_z = wn(tr_z,zeta_z)
 
 tr_psi = 0.3
 Mp_psi = 0.0001
-zeta_psi = np.sqrt((np.log(Mp_psi)**2)/(np.pi**2 + np.log(Mp_psi)**2))
-wn_psi = 0.5*(np.pi/(tr_psi*np.sqrt(1-zeta_psi**2)))
+zeta_psi = zeta(Mp_psi)
+wn_psi = wn(tr_psi,zeta_psi)
 
 
 #######################################################
