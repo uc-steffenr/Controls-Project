@@ -6,17 +6,13 @@ import numpy as np
 # from numpy import sin,cos as s,c
 import rotorParams as P
 
-# TODO add option for zoomed out view
-# TODO change animation for zoomed out view
 # TODO add reference line too
 
-# variables to change
 # - FOLLOW -> NOTE maybe make string for 'follow', 'zoomed out', or 'both'
 # -> both would include a top and bottom subplot, top shows simple animation of 
 # zoomed out view while bottom shows close up view with more in depth animation
 # NOTE maybe make it self.type rather than FOLLOW?
-# - plot size (lim)
-# - 
+
 
 class rotorAnimation:
     def __init__(self,type='follow'):
@@ -95,18 +91,28 @@ class rotorAnimation:
         self.Xhandle.append(x)
         self.Yhandle.append(y)
         self.Zhandle.append(z)
-        if self.type == 'follow' or self.type == 'both':
-            self.axF.plot3D(self.Xhandle,self.Yhandle,self.Zhandle, color='c', zorder=0)
-        if self.type == 'zoomed out' or self.type == 'both':
-            self.axZ.plot3D(self.Xhandle,self.Yhandle,self.Zhandle, color='c', zorder=0)
 
         if self.flag_init:
-            self.flag_init = False
-        else:
+            self.tracker = []
             if self.type == 'follow' or self.type == 'both':
+                lineF, = self.axF.plot3D(self.Xhandle,self.Yhandle,self.Zhandle, color='c', zorder=0)
+                self.tracker.append(lineF)
+            if self.type == 'zoomed out' or self.type == 'both':
+                lineZ, = self.axZ.plot3D(self.Xhandle,self.Yhandle,self.Zhandle, color='c', zorder=0)
+                self.tracker.append(lineZ)            
+            
+            self.flag_init = False
+        else:            
+            if self.type == 'follow' or self.type == 'both':
+                self.tracker[0].set_data_3d((self.Xhandle,self.Yhandle,self.Zhandle))                
                 self.axF.set_xlim(x-self.lim,x+self.lim)
                 self.axF.set_ylim(y-self.lim,y+self.lim)
                 self.axF.set_zlim(z+self.lim,z-self.lim)
+            if self.type == 'both':
+                self.tracker[1].set_data_3d((self.Xhandle,self.Yhandle,self.Zhandle))
+            elif self.type == 'zoomed out':
+                self.tracker[0].set_data_3d((self.Xhandle,self.Yhandle,self.Zhandle))
+            
         return
     
     def updateAnim(self,i,states, time):
@@ -129,18 +135,25 @@ class rotorAnimation:
         self.Xhandle.append(x)
         self.Yhandle.append(y)
         self.Zhandle.append(z)
-        if self.type == 'follow' or self.type == 'both':
-            self.axF.plot3D(self.Xhandle,self.Yhandle,self.Zhandle, color='c', zorder=0)
-            self.axF.set_title(f'time {round(time[i],2)}')
-        if self.type == 'zoomed out' or self.type == 'both':
-            self.axZ.plot3D(self.Xhandle,self.Yhandle,self.Zhandle, color='c', zorder=0)
-            self.axZ.set_title(f'time {round(time[i],2)}')
 
         if self.flag_init:
-            self.flag_init = False
-        else:
+            self.tracker = []
             if self.type == 'follow' or self.type == 'both':
+                lineF, = self.axF.plot3D(self.Xhandle,self.Yhandle,self.Zhandle, color='c', zorder=0)
+                self.tracker.append(lineF)
+            if self.type == 'zoomed out' or self.type == 'both':
+                lineZ, = self.axZ.plot3D(self.Xhandle,self.Yhandle,self.Zhandle, color='c', zorder=0)
+                self.tracker.append(lineZ)            
+            
+            self.flag_init = False
+        else:            
+            if self.type == 'follow' or self.type == 'both':
+                self.tracker[0].set_data_3d((self.Xhandle,self.Yhandle,self.Zhandle))                
                 self.axF.set_xlim(x-self.lim,x+self.lim)
                 self.axF.set_ylim(y-self.lim,y+self.lim)
                 self.axF.set_zlim(z+self.lim,z-self.lim)
+            if self.type == 'both':
+                self.tracker[1].set_data_3d((self.Xhandle,self.Yhandle,self.Zhandle))
+            elif self.type == 'zoomed out':
+                self.tracker[0].set_data_3d((self.Xhandle,self.Yhandle,self.Zhandle))
         return
