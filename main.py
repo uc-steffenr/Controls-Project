@@ -14,9 +14,6 @@ from path_follow import pathFollow
 # General todo list:
 # - TODO fix psi tracking
 # - TODO add wind
-# - TODO add integrator to FSFB
-#   - made kwarg in order to use same controller but with 
-#     an integrator option
 # - TODO calculate individual fan forces and/or angular rates 
 #        and saturate them
 # - TODO vary physical parameters in dynamics (using like the
@@ -26,8 +23,8 @@ from path_follow import pathFollow
 #################################################
 #              SIMULATION PARAMETERS            #
 #################################################
-FUNCANIMATE = True 
-ANIMATE = True
+FUNCANIMATE = False 
+ANIMATE = False
 # plotList = ["x", "y", "z", "u", "v", "w"]
 plotList = ["x", "y", "z", "phi", "theta", "psi"]
 
@@ -60,7 +57,8 @@ while t < P.t_end:
         Ftot,tau_phi,tau_theta,tau_psi = cont.update(ref[0],ref[1],ref[2],ref[3],rotor.state)
         F = np.array([[Ftot],[tau_phi],[tau_theta],[tau_psi]])
         x = rotor.state
-        ref = path.update(x,0.1)
+        # ref = path.update(x,0.1)
+        ref = path.update_Nate()
         y = rotor.update(F)
         t = t + P.Ts
     
@@ -87,7 +85,7 @@ if ANIMATE:
         print('saving...')
         data.staticPlot(t,ref,x,control)
         # plt.show(block=True)
-        ani.save("FSFBI_Attempt.gif", writer=animation.PillowWriter(fps=30))
+        ani.save("FSFBI_Video.gif", writer=animation.PillowWriter(fps=30))
         print('done')
     else:
         print('Press key to close')

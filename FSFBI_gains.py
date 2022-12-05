@@ -5,8 +5,6 @@ import rotorParams as P
 import control as cnt
 from numpy import array
 
-# TODO tune gains for figure eight path
-
 # methods to calculate damping coefficient and natural frequency
 zeta = lambda Mp: np.sqrt((np.log(Mp)**2)/(np.pi**2 + np.log(Mp)**2))
 wn = lambda tr,zeta: 0.5*(np.pi/(tr*np.sqrt(1-zeta**2)))
@@ -16,7 +14,7 @@ M_inner = 8
 #--------------------------------------------
 #               x parameters
 # -------------------------------------------
-tr_x = 1
+tr_x = 0.75
 Mp_x = 0.04
 zeta_x = zeta(Mp_x)
 wn_x = wn(tr_x,zeta_x)
@@ -29,7 +27,7 @@ wn_th = wn(tr_th,zeta_th)
 #--------------------------------------------
 #               y parameters
 # -------------------------------------------
-tr_y = 1
+tr_y = 0.75
 Mp_y = 0.04
 zeta_y = zeta(Mp_y)
 wn_y = wn(tr_y,zeta_y)
@@ -42,11 +40,11 @@ wn_phi = wn(tr_phi,zeta_phi)
 #--------------------------------------------
 #               z parameters
 # -------------------------------------------
-tr_z = 0.35
+tr_z = 0.5
 Mp_z = 0.04
 zeta_z = zeta(tr_z)
 wn_z = wn(tr_z,zeta_z)
-z_integrator = -60
+z_integrator = -50
 
 #--------------------------------------------
 #               psi parameters
