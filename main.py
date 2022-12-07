@@ -15,6 +15,9 @@ from path_follow import pathFollow
 # - TODO fix psi tracking
 # - TODO calculate individual fan forces and/or angular rates 
 #        and saturate them
+# - TODO Adding reference line to animation
+#
+# vvvvv less of a priority vvvvv
 # - TODO vary physical parameters in dynamics (using like the
 #         alpha terms from the homeworks)-- less important
 
@@ -22,7 +25,7 @@ from path_follow import pathFollow
 #################################################
 #              SIMULATION PARAMETERS            #
 #################################################
-FUNCANIMATE = False
+FUNCANIMATE = True
 ANIMATE = True
 # plotList = ["x", "y", "z", "u", "v", "w"]
 plotList = ["x", "y", "z", "phi", "theta", "psi"]
@@ -84,7 +87,7 @@ if ANIMATE:
         print('saving...')
         data.staticPlot(t,ref,x,control)
         # plt.show(block=True)
-        ani.save("FSFBI_Video.gif", writer=animation.PillowWriter(fps=30))
+        ani.save("Infinite_Wind.gif", writer=animation.PillowWriter(fps=30))
         print('done')
     else:
         print('Press key to close')
