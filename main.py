@@ -25,8 +25,8 @@ from path_follow import pathFollow
 #################################################
 #              SIMULATION PARAMETERS            #
 #################################################
-FUNCANIMATE = True
-ANIMATE = True
+FUNCANIMATE = False
+ANIMATE = False
 # plotList = ["x", "y", "z", "u", "v", "w"]
 plotList = ["x", "y", "z", "phi", "theta", "psi"]
 
@@ -50,17 +50,20 @@ if FUNCANIMATE:
     x_history = x.T
     i = 0
 
+# psi_r = 30 * np.pi/180
 # outer loop... plot timesteps
 while t < P.t_end:
     t_next_plot = t + P.t_plot
 
     # inner loop... calculate new states between plot timesteps
     while t < t_next_plot:
+        # ref[3] = 30 * np.pi/180
         Ftot,tau_phi,tau_theta,tau_psi = cont.update(ref[0],ref[1],ref[2],ref[3],rotor.state)
         F = np.array([[Ftot],[tau_phi],[tau_theta],[tau_psi]])
         x = rotor.state
         # ref = path.update(x,0.1)
         ref = path.update_Nate()
+        # ref[3] = 30 * np.pi/180
         y = rotor.update(F)
         t = t + P.Ts
     
@@ -87,7 +90,7 @@ if ANIMATE:
         print('saving...')
         data.staticPlot(t,ref,x,control)
         # plt.show(block=True)
-        ani.save("Infinite_Wind.gif", writer=animation.PillowWriter(fps=30))
+        ani.save("FSFBI_12N_Wind.gif", writer=animation.PillowWriter(fps=30))
         print('done')
     else:
         print('Press key to close')

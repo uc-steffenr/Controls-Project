@@ -41,7 +41,7 @@ class rotorDynamics:
 
         if self.wind:
             mu = 0
-            sigma = 1
+            sigma = 12
             # wind force
             fwx = gauss(mu,sigma)
             fwy = gauss(mu,sigma)
